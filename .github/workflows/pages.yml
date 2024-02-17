@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cahce
+      - name: Cahce cargo
         uses: actions/cache@v3
         with:
           path: |
@@ -24,7 +24,8 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - uses: actions/cache@v3
+      - name: Cache npm
+        uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
@@ -54,9 +55,8 @@ jobs:
 
       - name: Merge build assets
         run: |
-          mkdir -p build/example
-          mv frontend/dest/* build/
-          mv backend/example/book/* build/example
+          mv frontend/dist build
+          mv backend/example/book build/example
 
       - name: Deploy to github pages
         uses: crazy-max/ghaction-github-pages@v3.1.0

@@ -1,5 +1,9 @@
 # Mdbook REPL
 
+This is a python **realtime** playground which uses pyodide **webassembly** to run python code in the browser. So you can run python code in the browser without any server.
+
+Below is a simple example, you can run the code and see the output.
+
 **Python**
 
 ```python
