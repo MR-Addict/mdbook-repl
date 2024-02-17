@@ -1,0 +1,14 @@
+/* patch for table */
+table {
+  width: 100%;
+}
+
+table tr :is(th, td) {
+  padding-block: 7px;
+}
+
+@media (min-width: 768px) {
+  table tr :is(th, td) {
+    padding-block: 10px;
+  }
+}

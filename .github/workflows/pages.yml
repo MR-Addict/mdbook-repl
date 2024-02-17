@@ -12,9 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+
+      - name: Cahce
+        uses: actions/cache@v3
         with:
-          node-version: 18
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
       - uses: actions/cache@v3
         with:
@@ -22,12 +30,38 @@ jobs:
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.OS }}-npm-cache-
 
-      - run: cd frontend && npm install && npm run build
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Setup rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build REPL
+        run: |
+          cd frontend
+          npm install && npm run build
+
+      - name: Build book
+        run: |
+          cd backend
+          chmod u+x example/assets/bin/* && cp example/assets/bin/* /usr/local/bin
+          cargo build --release && mdbook build example
+
+      - name: Merge build assets
+        run: |
+          mkdir -p build/example
+          mv frontend/dest/* build/
+          mv backend/example/book/* build/example
 
       - name: Deploy to github pages
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: gh-pages
-          build_dir: frontend/dist
+          build_dir: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
