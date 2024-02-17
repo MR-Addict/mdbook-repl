@@ -8,7 +8,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
-  placeholder: "mdbook-repl",
+  placeholder: "Try writing some code...",
   fontSize: 17,
   showPrintMargin: false,
   highlightActiveLine: false,
@@ -17,6 +17,7 @@ const defaultOptions = {
   enableBasicAutocompletion: true,
   enableLiveAutocompletion: true,
   tabSize: 4,
+  minLines: 2,
   editorProps: { $blockScrolling: true }
 };
 

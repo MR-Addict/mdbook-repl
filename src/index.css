@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply overflow-y-hidden;
+}
+
 .ace_editor:hover ~ .buttons,
 .buttons:hover {
   @apply opacity-100;

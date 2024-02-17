@@ -1,19 +1,19 @@
-import z from "zod";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
-import { EditorType } from "@/types/editor";
+import { MessageType } from "@/types/message";
 import { Output, OutputType } from "@/types/output";
-import { Message, MessageType } from "@/types/message";
+import { Editor, EditorType } from "@/types/editor";
 
 import useResizeObserver from "@/hooks/useResizeObserver";
 
-const defaultCode = `# Try to change dec and see the output change
-dec = 344
+const defaultCode = `# This is a default python code
+import calendar
 
-print("The decimal value of", dec, "is:")
-print(bin(dec), "in binary.")
-print(oct(dec), "in octal.")
-print(hex(dec), "in hexadecimal.")`;
+yy = 2024  # year
+mm = 2    # month
+
+# display the calendar
+print(calendar.month(yy, mm))`;
 
 const defaultOutput: OutputType = { status: "idle" };
 
@@ -71,11 +71,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   // listen for messages from parent window
   useEffect(() => {
     const onmessage = (event: MessageEvent) => {
-      if (event.source === window) return;
-      const result = z.object({ repl: Message.omit({ output: true, dimensions: true }) }).safeParse(event.data);
-      if (!result.success) return;
-      setId(result.data.repl.id);
-      setEditor(result.data.repl.editor);
+      if (event.source === window || !event.data.repl) return;
+      if (typeof event.data.repl.id === "string") setId(event.data.repl.id);
+
+      const parsedEditor = Editor.safeParse(Object.assign(editor, event.data.repl.editor));
+      if (parsedEditor.success) setEditor({ ...parsedEditor.data });
     };
     window.addEventListener("message", onmessage);
     return () => window.removeEventListener("message", onmessage);

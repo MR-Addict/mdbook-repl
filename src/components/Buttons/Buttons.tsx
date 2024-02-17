@@ -1,5 +1,7 @@
 import clsx from "clsx";
+import { useState } from "react";
 import { IconType } from "react-icons/lib";
+import { IoCheckmark } from "react-icons/io5";
 import { FaRegCopy, FaPlay, FaHistory } from "react-icons/fa";
 
 import style from "./Buttons.module.css";
@@ -17,9 +19,9 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
     <button
       disabled={disabled}
       type="button"
-      aria-label={`${name} button`}
       onClick={onClick}
-      className="dark:bg-black dark:text-gray-400 dark:hover:text-gray-500 hover:text-blue-600"
+      title={`${name} code`}
+      className="dark:bg-zinc-900 dark:text-gray-400 dark:hover:text-gray-600 hover:text-blue-600 dark:border-zinc-600"
     >
       <Icon size={13} />
     </button>
@@ -27,10 +29,15 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
 }
 
 export default function Buttons() {
+  const [copied, setCopied] = useState(false);
   const { editor, setEditor, output, setOutput, workers } = useAppContext();
 
-  const handleCopy = () => navigator.clipboard.writeText(editor.code);
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
+  const handleCopy = () => {
+    setCopied(true);
+    navigator.clipboard.writeText(editor.code);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   // post message to worker
   const handlePlay = () => {
@@ -42,7 +49,7 @@ export default function Buttons() {
   return (
     <div className={clsx(style.wrapper, "buttons")}>
       <Button name="play" Icon={FaHistory} onClick={handleReset} />
-      <Button name="copy" Icon={FaRegCopy} onClick={handleCopy} />
+      <Button name="copy" Icon={copied ? IoCheckmark : FaRegCopy} onClick={handleCopy} />
       <Button
         name="reset"
         Icon={FaPlay}
