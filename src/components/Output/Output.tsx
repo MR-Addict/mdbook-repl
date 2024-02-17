@@ -7,5 +7,9 @@ export default function Output() {
 
   const message = output.status === "start" ? "Running..." : output.msg;
 
-  return <p className="whitespace-pre-wrap p-2 bg-gray-200 rounded-md font-mono">{message}</p>;
+  return (
+    <p className="whitespace-pre-wrap px-4 py-2 rounded-sm bg-stone-100 dark:text-gray-300 dark:bg-zinc-800 font-mono">
+      {message}
+    </p>
+  );
 }

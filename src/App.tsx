@@ -4,7 +4,7 @@ import Output from "@/components/Output/Output";
 
 export default function App() {
   return (
-    <main className="relative flex flex-col gap-2">
+    <main className="relative rounded-md py-2 flex flex-col gap-3">
       <Editor />
       <Buttons />
       <Output />

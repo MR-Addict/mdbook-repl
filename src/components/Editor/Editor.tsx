@@ -9,7 +9,7 @@ import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
   placeholder: "mdbook-repl",
-  fontSize: 16,
+  fontSize: 17,
   showPrintMargin: false,
   highlightActiveLine: false,
   showGutter: true,
@@ -29,8 +29,8 @@ export default function Editor() {
       name={editor.lang}
       mode={editor.lang}
       value={editor.code}
-      theme={editor.theme}
       defaultValue={editor.defaultCode}
+      theme={editor.theme === "light" ? "tomorrow" : "tomorrow_night"}
       onChange={(code) => setEditor({ ...editor, code })}
       {...defaultOptions}
     />

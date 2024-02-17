@@ -1,13 +1,13 @@
 import z from "zod";
 
-const EditorOptions = z.object({
-  theme: z.union([z.literal("tomorrow"), z.literal("tomorrow_night")]),
+const Editor = z.object({
   lang: z.literal("python"),
   code: z.string(),
+  theme: z.union([z.literal("light"), z.literal("dark")]),
   defaultCode: z.string()
 });
 
-type EditorOptionsType = z.infer<typeof EditorOptions>;
+type EditorType = z.infer<typeof Editor>;
 
-export { EditorOptions };
-export type { EditorOptionsType };
+export { Editor };
+export type { EditorType };

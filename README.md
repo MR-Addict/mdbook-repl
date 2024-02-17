@@ -1,5 +1,11 @@
 # Mdbook REPL
 
+## TODO
+
+- [x] Automatically update theme
+- [x] Communicate with iframe host
+- [ ] Implement more languages other than python
+
 ## Useful Links
 
 - [ACE Editor](https://ace.c9.io)
