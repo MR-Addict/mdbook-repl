@@ -6,7 +6,7 @@ body {
   @apply overflow-y-hidden;
 }
 
-.ace_editor:hover ~ .buttons,
+.ace-editor:hover ~ .buttons,
 .buttons:hover {
   @apply opacity-100;
 }

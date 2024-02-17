@@ -1,0 +1,36 @@
+<!-- Custom REPL Script -->
+<script>
+  document.querySelectorAll(".repl").forEach((replElement) => {
+    const iframeElement = replElement.querySelector("iframe");
+
+    const id = replElement.getAttribute("data-id");
+    const lang = replElement.getAttribute("data-lang");
+    const code = replElement.nextElementSibling.innerText.trim();
+    const theme = mapTheme(localStorage.getItem("mdbook-theme"));
+
+    const message = { repl: { id, editor: { theme, lang, code, defaultCode: code } } };
+
+    function mapTheme(bookTheme) {
+      if (bookTheme === "coal" || bookTheme === "navy" || bookTheme === "ayu") return "dark";
+      else return "light";
+    }
+
+    window.addEventListener("message", (event) => {
+      if (event.source === window || !event.data.repl) return;
+
+      const repl = event.data.repl;
+      if (repl.id === id) replElement.style.height = repl.dimensions.height + "px";
+      else if (repl.id === "") {
+        iframeElement.style.display = "block";
+        iframeElement.contentWindow.postMessage(message, "*");
+        replElement.nextElementSibling.style.display = "none";
+      }
+    });
+
+    document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        iframeElement.contentWindow.postMessage({ repl: { id, editor: { theme: mapTheme(event.target.id) } } }, "*");
+      });
+    });
+  });
+</script>

@@ -12,7 +12,7 @@ const defaultOptions = {
   fontSize: 17,
   showPrintMargin: false,
   highlightActiveLine: false,
-  showGutter: true,
+  showGutter: false,
   maxLines: Infinity,
   enableBasicAutocompletion: true,
   enableLiveAutocompletion: true,
@@ -25,15 +25,18 @@ export default function Editor() {
   const { editor, setEditor } = useAppContext();
 
   return (
-    <AceEditor
-      width="100%"
-      name={editor.lang}
-      mode={editor.lang}
-      value={editor.code}
-      defaultValue={editor.defaultCode}
-      theme={editor.theme === "light" ? "tomorrow" : "tomorrow_night"}
-      onChange={(code) => setEditor({ ...editor, code })}
-      {...defaultOptions}
-    />
+    <div className="bg-stone-100 dark:bg-zinc-800 py-2 px-1 ace-editor">
+      <AceEditor
+        width="100%"
+        name={editor.lang}
+        mode={editor.lang}
+        value={editor.code}
+        className="bg-transparent"
+        defaultValue={editor.defaultCode}
+        theme={editor.theme === "light" ? "tomorrow" : "tomorrow_night"}
+        onChange={(code) => setEditor({ ...editor, code })}
+        {...defaultOptions}
+      />
+    </div>
   );
 }
