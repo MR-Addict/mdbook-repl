@@ -55,8 +55,8 @@ jobs:
 
       - name: Merge build assets
         run: |
-          mv frontend/dist build
-          mv backend/example/book build/example
+          mv backend/example/book build
+          mv frontend/dist build/embed
 
       - name: Deploy to github pages
         uses: crazy-max/ghaction-github-pages@v3.1.0

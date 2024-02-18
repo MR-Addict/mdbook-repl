@@ -6,7 +6,7 @@
     const id = replElement.getAttribute("data-id");
     const lang = replElement.getAttribute("data-lang");
     const code = replElement.nextElementSibling.innerText.trim();
-    const theme = mapTheme(localStorage.getItem("mdbook-theme"));
+    let theme = mapTheme(localStorage.getItem("mdbook-theme"));
 
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
 
@@ -37,7 +37,8 @@
     // listen to theme change
     document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
       btn.addEventListener("click", (event) => {
-        iframeElement.contentWindow.postMessage({ repl: { id, editor: { theme: mapTheme(event.target.id) } } }, "*");
+        theme = mapTheme(event.target.id);
+        postmessage({ editor: { theme } });
       });
     });
   });

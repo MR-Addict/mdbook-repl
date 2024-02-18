@@ -1,11 +1,17 @@
 # Summary
 
+# Basics
+
 - [Intro](intro.md)
+- [Usage](usage.md)
+- [For Developers](for-developers.md)
+
+# Languages
+
 - [Python](python/intro.md)
-  - [Get Started](python/get-started.md)
-  - [Basics](python/basics.md)
-  - [Variable and Types](python/variable-and-types.md)
-  - [Operators](python/operators.md)
+  - [Version](python/version.md)
+  - [Packages](python/packages.md)
+  - [Limitations](python/limitations.md)
 - [C]()
 - [C++]()
 - [Javascript]()

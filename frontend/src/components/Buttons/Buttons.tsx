@@ -21,7 +21,7 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
       type="button"
       onClick={onClick}
       title={`${name} code`}
-      className="dark:bg-zinc-900 dark:text-gray-400 md:dark:hover:text-gray-600 md:hover:text-blue-600 md:dark:border-zinc-600"
+      className="dark:bg-zinc-900 dark:text-gray-400 sm:dark:enabled:hover:text-gray-300 sm:enabled:hover:text-blue-600 dark:border-zinc-600"
     >
       <Icon size={13} />
     </button>
@@ -47,10 +47,10 @@ export default function Buttons() {
 
   return (
     <div className={clsx(style.wrapper, "buttons")}>
-      <Button name="play" Icon={FaHistory} onClick={handleReset} />
+      <Button name="reset" Icon={FaHistory} onClick={handleReset} />
       <Button name="copy" Icon={copied ? IoCheckmark : FaRegCopy} onClick={handleCopy} />
       <Button
-        name="reset"
+        name="play"
         Icon={FaPlay}
         onClick={handlePlay}
         disabled={output.status === "loading" || output.status === "running"}

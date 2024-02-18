@@ -1,40 +1,19 @@
 # Mdbook REPL
 
-## TODO
+This is a [mdbook](https://rust-lang.github.io/mdBook) playground which uses **webassembly** to execute code in the browser. So you can run code in the browser without any server.
 
-- [x] Allow move ouput
-- [x] Automatically update theme
-- [x] Communicate with iframe host
-- [ ] Implement more languages other than python
+This is inspired by [mdbook rust playground](https://rust-lang.github.io/mdBook/format/mdbook.html#rust-playground), but it is not limited to rust. Recent years, webassembly is very powerful and able to so many things. So I want to learned it and try to make a playground for multiple languages for mdbook.
 
-## Embed
+```python
+# Python codeblock
 
-Simplest way to embed the REPL is to use an iframe. The following example demonstrates how to embed the REPL in an iframe.
-
-```html
-<iframe src="https://mr-addict.github.io/mdbook-repl" width="100%" allow="clipboard-write"></iframe>
-<script>
-  const id = "ac2f5a2a";
-  const lang = "python";
-  const theme = "light";
-  const code = "print('Hello world')";
-
-  const iframe = document.querySelector("iframe");
-  const message = { repl: { id, editor: { theme, lang, code, defaultCode: code } } };
-
-  window.addEventListener("message", (event) => {
-    if (event.source === window || !event.data.repl) return;
-
-    const repl = event.data.repl;
-
-    if (repl.id === id) replElement.style.height = repl.dimensions.height + "px";
-    else if (repl.id === "") iframe.contentWindow.postMessage(message, "*");
-  });
-</script>
+print("Hello, world!")
 ```
 
-## Useful Links
+All the code is **editable** and **runnable**. You can change the code and run it again. The output will be updated immediately.
 
-- [ACE Editor](https://ace.c9.io)
-- [InfiniteXyy Playcode](https://github.com/InfiniteXyy/playcode)
-- [MDN Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Worker)
+> 💥 Attention
+>
+> This project only supports python for now. More languages will be supported in the future.
+
+Tell me if you have any ideas or suggestions.

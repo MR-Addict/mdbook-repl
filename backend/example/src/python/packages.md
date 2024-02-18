@@ -1,0 +1,19 @@
+# Packages
+
+There are many built-in [packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html) that are available in pyodide. You should have a look at the list of packages before you import them.
+
+For example, you can use **regex** pakcage to match a pattern in a string:
+
+```python
+import regex
+
+pattern = r'(\d{4})-(\d{2})-(\d{2})'
+
+match = regex.match(pattern, '2022-12-31')
+
+print(match.groups())
+```
+
+It may take some time when you first import a package, but after that, it should be faster.
+
+Some of the packages may not work due to the limitations of browser environment.

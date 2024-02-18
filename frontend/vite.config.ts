@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 function getBaseUrl() {
   if (!process.env.GITHUB_REPOSITORY) return "/";
   const [githubOwner, repository] = process.env.GITHUB_REPOSITORY.split("/");
-  return `https://${githubOwner}.github.io/${repository}`;
+  return `https://${githubOwner}.github.io/${repository}/embed`;
 }
 
 export default defineConfig({

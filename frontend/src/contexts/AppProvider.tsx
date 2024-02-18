@@ -6,9 +6,7 @@ import { Editor, EditorType } from "@/types/editor";
 
 import useResizeObserver from "@/hooks/useResizeObserver";
 
-const defaultCode = `# This is a default python code
-
-print("Hello world")`;
+const defaultCode = '# This is a default python code\n\nprint("Hello world")';
 
 const defaultOutput: OutputType = { status: "idle", msg: "" };
 
