@@ -8,12 +8,13 @@ export default function Output() {
   const message = output.status === "start" ? "Running..." : output.msg;
 
   return (
-    <div className="relative group dark:text-gray-300">
+    <div className="relative group text-gray-800 dark:text-gray-300">
       <p className="whitespace-pre-wrap p-2 bg-stone-100 dark:bg-zinc-800 font-mono empty:hidden">{message}</p>
       <button
         type="button"
-        className="absolute right-2 top-2 opacity-0 duration-300 group-hover:opacity-100"
         onClick={() => setOutput({ status: "idle", msg: "" })}
+        disabled={output.status === "running" || output.status === "start"}
+        className="absolute right-2 top-1 md:opacity-0 duration-300 group-hover:opacity-100 disabled:hidden"
       >
         clear
       </button>

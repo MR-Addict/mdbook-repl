@@ -26,8 +26,15 @@ fn get_asset(name: &str) -> String {
 }
 
 fn render_repls(content: &str) -> String {
-    let re = Regex::new(r"(?s)```(py|python)\n(.*?)```").unwrap();
+    // \r? is for windows line endings
+    let re = Regex::new(r"(?s)```(py|python)\r?\n(.*?)```").unwrap();
 
+    // if there are no matches, return the content as is
+    if !re.is_match(content) {
+        return content.to_string();
+    }
+
+    // replace all matches with the repl html
     re.replace_all(content, |caps: &regex::Captures| {
         let id = Uuid::new_v4().to_string();
         let lang = caps.get(1).unwrap().as_str();

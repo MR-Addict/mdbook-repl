@@ -10,3 +10,7 @@ body {
 .buttons:hover {
   @apply opacity-100;
 }
+
+.ace_mobile-menu {
+  display: none;
+}

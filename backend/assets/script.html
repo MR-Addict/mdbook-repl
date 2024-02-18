@@ -20,6 +20,7 @@
 
       const repl = event.data.repl;
       if (repl.id === id) replElement.style.height = repl.dimensions.height + "px";
+      // id is empty means repl is not loaded, so we send basic configuration to the iframe
       else if (repl.id === "") {
         iframeElement.style.display = "block";
         iframeElement.contentWindow.postMessage(message, "*");
@@ -27,6 +28,7 @@
       }
     });
 
+    // listen to theme change
     document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
       btn.addEventListener("click", (event) => {
         iframeElement.contentWindow.postMessage({ repl: { id, editor: { theme: mapTheme(event.target.id) } } }, "*");

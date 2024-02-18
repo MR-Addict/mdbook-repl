@@ -21,7 +21,7 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
       type="button"
       onClick={onClick}
       title={`${name} code`}
-      className="dark:bg-zinc-900 dark:text-gray-400 dark:hover:text-gray-600 hover:text-blue-600 dark:border-zinc-600"
+      className="dark:bg-zinc-900 dark:text-gray-400 dark:hover:text-gray-600 md:hover:text-blue-600 md:dark:border-zinc-600"
     >
       <Icon size={13} />
     </button>
@@ -36,7 +36,7 @@ export default function Buttons() {
   const handleCopy = () => {
     setCopied(true);
     navigator.clipboard.writeText(editor.code);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1000);
   };
 
   // post message to worker
