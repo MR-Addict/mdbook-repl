@@ -2,6 +2,13 @@
 name = "mdbook-repl"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+readme = "README.md"
+keywords = ["mdbook", "repl", "plugin", "preprocessor"]
+authors = ["MR-Addict <MR-Addict@qq.com>"]
+repository = "https://github.com/MR-Addict/mdbook-repl"
+documentation = "https://mr-addict.github.io/mdbook-repl"
+description = "A rust based mdbook preprocessor plugin that allows you to live code in your markdown book."
 
 [dependencies]
 clap = "4.5.0"

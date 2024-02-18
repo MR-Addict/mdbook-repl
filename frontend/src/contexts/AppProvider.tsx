@@ -7,15 +7,10 @@ import { Editor, EditorType } from "@/types/editor";
 import useResizeObserver from "@/hooks/useResizeObserver";
 
 const defaultCode = `# This is a default python code
-import calendar
 
-yy = 2024  # year
-mm = 2    # month
+print("Hello world")`;
 
-# display the calendar
-print(calendar.month(yy, mm))`;
-
-const defaultOutput: OutputType = { status: "idle" };
+const defaultOutput: OutputType = { status: "idle", msg: "" };
 
 const defaultEditorOptions: EditorType = {
   lang: "python",
@@ -86,14 +81,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     const onmessage = (event: MessageEvent) => {
       const result = Output.safeParse(event.data.output);
       if (!result.success) setOutput({ status: "error", msg: result.error.message });
-      else {
-        setOutput((prev) => {
-          let msg = prev.msg;
-          if (!msg && result.data.msg) msg = result.data.msg.trim();
-          else if (msg && result.data.msg) msg += `\n${result.data.msg.trim()}`;
-          return { status: result.data.status, msg };
-        });
-      }
+      else setOutput(result.data);
     };
     workers.forEach((w) => (w.worker.onmessage = onmessage));
   }, []);

@@ -1,21 +1,17 @@
 import { useAppContext } from "@/contexts/AppProvider";
 
+import style from "./Output.module.css";
+import clsx from "clsx";
+
 export default function Output() {
   const { output, setOutput } = useAppContext();
 
   if (output.status === "idle") return null;
 
-  const message = output.status === "start" ? "Running..." : output.msg;
-
   return (
-    <div className="relative group text-gray-800 dark:text-gray-300">
-      <p className="whitespace-pre-wrap p-2 bg-stone-100 dark:bg-zinc-800 font-mono empty:hidden">{message}</p>
-      <button
-        type="button"
-        onClick={() => setOutput({ status: "idle", msg: "" })}
-        disabled={output.status === "running" || output.status === "start"}
-        className="absolute right-2 top-1 md:opacity-0 duration-300 group-hover:opacity-100 disabled:hidden"
-      >
+    <div data-status={output.status} className={clsx(style.wrapper, "dark:text-gray-300")}>
+      <p className={clsx(style.output, "dark:bg-zinc-800")}>{output.msg || "Sorry, there is no output"}</p>
+      <button type="button" className={style["clear-button"]} onClick={() => setOutput({ status: "idle", msg: "" })}>
         clear
       </button>
     </div>

@@ -1,0 +1,25 @@
+.wrapper {
+  @apply relative text-gray-800;
+}
+
+.wrapper:hover .clear-button {
+  @apply opacity-100;
+}
+
+/* output message */
+.output {
+  @apply whitespace-pre-wrap p-2 bg-stone-100 font-mono empty:hidden;
+}
+
+.wrapper[data-status="error"] .output {
+  @apply text-red-600;
+}
+
+/* clear button */
+.clear-button {
+  @apply absolute right-2 top-1 md:opacity-0 duration-300;
+}
+
+.clear-button:disabled {
+  @apply hidden cursor-not-allowed;
+}

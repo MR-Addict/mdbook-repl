@@ -8,7 +8,7 @@
     const code = replElement.nextElementSibling.innerText.trim();
     const theme = mapTheme(localStorage.getItem("mdbook-theme"));
 
-    const message = { repl: { id, editor: { theme, lang, code, defaultCode: code } } };
+    const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
 
     function mapTheme(bookTheme) {
       if (bookTheme === "coal" || bookTheme === "navy" || bookTheme === "ayu") return "dark";
@@ -19,12 +19,18 @@
       if (event.source === window || !event.data.repl) return;
 
       const repl = event.data.repl;
-      if (repl.id === id) replElement.style.height = repl.dimensions.height + "px";
-      // id is empty means repl is not loaded, so we send basic configuration to the iframe
-      else if (repl.id === "") {
-        iframeElement.style.display = "block";
-        iframeElement.contentWindow.postMessage(message, "*");
-        replElement.nextElementSibling.style.display = "none";
+      // if id is empty means iframe is first loaded, so we send configurations to it
+      if (repl.id === "") postmessage({ id, editor: { theme, lang, code, defaultCode: code } });
+      // if id is not empty and it's the same as the current repl, we can receive the data
+      else if (repl.id === id) {
+        if (repl.editor.theme !== theme) postmessage({ editor: { theme } });
+        else {
+          // update the iframe height
+          replElement.style.height = repl.dimensions.height + "px";
+          // show the iframe and hide the pre element
+          iframeElement.style.display = "block";
+          replElement.nextElementSibling.style.display = "none";
+        }
       }
     });
 

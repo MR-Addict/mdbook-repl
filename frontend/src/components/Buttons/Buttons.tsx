@@ -21,7 +21,7 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
       type="button"
       onClick={onClick}
       title={`${name} code`}
-      className="dark:bg-zinc-900 dark:text-gray-400 dark:hover:text-gray-600 md:hover:text-blue-600 md:dark:border-zinc-600"
+      className="dark:bg-zinc-900 dark:text-gray-400 md:dark:hover:text-gray-600 md:hover:text-blue-600 md:dark:border-zinc-600"
     >
       <Icon size={13} />
     </button>
@@ -30,7 +30,7 @@ function Button({ Icon, onClick, disabled, name }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, output, setOutput, workers } = useAppContext();
+  const { editor, setEditor, output, workers } = useAppContext();
 
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
   const handleCopy = () => {
@@ -41,7 +41,6 @@ export default function Buttons() {
 
   // post message to worker
   const handlePlay = () => {
-    setOutput({ status: "start", msg: "" });
     const worker = workers.find((w) => w.lang === editor.lang)?.worker;
     if (worker) worker.postMessage({ lang: editor.lang, code: editor.code });
   };
@@ -54,7 +53,7 @@ export default function Buttons() {
         name="reset"
         Icon={FaPlay}
         onClick={handlePlay}
-        disabled={output.status === "start" || output.status === "running"}
+        disabled={output.status === "loading" || output.status === "running"}
       />
     </div>
   );

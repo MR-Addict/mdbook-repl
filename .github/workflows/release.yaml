@@ -1,0 +1,100 @@
+name: release
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Cahce
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Install toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          override: true
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build release
+        run: cd backend && cargo build --release
+
+      - name: Artifact (Unix)
+        if: matrix.target != 'x86_64-pc-windows-msvc'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: backend/target/release/mdbook-embedify
+
+      - name: Artifact (Windows)
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: backend/target/release/mdbook-embedify.exe
+
+      - name: Publish crate
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: |
+          cd backend
+          cargo login --token ${{ secrets.CARGO_TOKEN }}
+          cargo publish
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Install packages
+        run: sudo apt update && sudo apt install -y upx-ucl zip
+
+      - name: Rename binaries
+        run: |
+          mv x86_64-unknown-linux-gnu mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-unknown-linux-gnu
+          mv x86_64-apple-darwin mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-apple-darwin
+          mv x86_64-pc-windows-msvc mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc
+
+      - name: Compress binaries
+        run: |
+          chmod u+x mdbook-embedify-*/mdbook-embedify*
+          upx --best mdbook-embedify-*/mdbook-embedify*
+          zip -r mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-unknown-linux-gnu{.zip,}
+          zip -r mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-apple-darwin{.zip,}
+          zip -r mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc{.zip,}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: v${{ steps.get_version.outputs.VERSION }}
+          files: |
+            mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-unknown-linux-gnu.zip
+            mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-apple-darwin.zip
+            mdbook-embedify-${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc.zip
