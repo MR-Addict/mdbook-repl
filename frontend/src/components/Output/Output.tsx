@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 import style from "./Output.module.css";
 
@@ -13,8 +13,12 @@ export default function Output() {
   return (
     <div data-status={output.status} className={clsx(style.wrapper, "dark:text-gray-300")}>
       <p className={clsx(style.output, "dark:bg-zinc-800")}>{output.msg || "Sorry, there is no output"}</p>
-      <button type="button" className={style["clear-button"]} onClick={() => setOutput({ status: "idle", msg: "" })}>
-        <IoCloseOutline size={18} />
+      <button
+        type="button"
+        className={clsx(style["clear-button"], "dark:text-gray-400 sm:hover:text-blue-600 sm:dark:hover:text-gray-300")}
+        onClick={() => setOutput({ status: "idle", msg: "" })}
+      >
+        <IoCloseCircleOutline size={19} />
       </button>
     </div>
   );
