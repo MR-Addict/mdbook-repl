@@ -20,7 +20,7 @@ print("Hello, world!")
 ```
 ````
 
-After you build your **mdbook**, the codeblock will be replaced by the output of the code.
+After you build your **mdbook**, the codeblock will be rendered by preprocessor.
 
 ```python
 # Python codeblock

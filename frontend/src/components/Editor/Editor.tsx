@@ -9,7 +9,7 @@ import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
   placeholder: "Try writing some code...",
-  fontSize: 17,
+  fontSize: 16,
   showPrintMargin: false,
   highlightActiveLine: false,
   showGutter: false,

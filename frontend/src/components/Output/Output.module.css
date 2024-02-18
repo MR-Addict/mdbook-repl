@@ -17,7 +17,7 @@
 
 /* clear button */
 .clear-button {
-  @apply absolute right-2 top-0.5 sm:opacity-0 duration-300;
+  @apply p-0.5 rounded-full bg-gray-500 text-white absolute right-2 top-2 sm:opacity-0 duration-300;
 }
 
 .clear-button:disabled {

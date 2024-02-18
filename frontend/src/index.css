@@ -16,6 +16,7 @@ body {
   @apply hidden;
 }
 
+.ace_editor .ace_hidden-cursors,
 .ace_editor textarea:read-only ~ .ace_scroller .ace_cursor-layer,
 .ace_editor textarea:read-only ~ .ace_scroller .ace_marker-layer .ace_bracket {
   @apply hidden;
