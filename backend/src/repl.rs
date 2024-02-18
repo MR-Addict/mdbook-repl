@@ -25,9 +25,16 @@ fn get_asset(name: &str) -> String {
     std::str::from_utf8(file.data.as_ref()).unwrap().to_string()
 }
 
+fn parse_options(options_str: &str) -> Vec<String> {
+    options_str
+        .split(',')
+        .map(|s| s.trim().to_string())
+        .collect()
+}
+
 fn render_repls(content: &str) -> (bool, String) {
     // \r? is for windows line endings
-    let re = Regex::new(r"(?s)```(py|python)\r?\n(.*?)```").unwrap();
+    let re = Regex::new(r"(?s)```(py|python),?(.*?)\r?\n(.*?)```").unwrap();
 
     // if there are no matches, return the content as is
     if !re.is_match(content) {
@@ -39,12 +46,24 @@ fn render_repls(content: &str) -> (bool, String) {
         .replace_all(content, |caps: &regex::Captures| {
             let lang = "python";
             let id = Uuid::new_v4().to_string();
-            let code = caps.get(0).unwrap().as_str().trim();
+            let code = caps.get(3).map(|m| m.as_str()).unwrap_or("").trim();
+
+            let codeblock = format!("```{}\n{}\n```", lang, code);
+            let options_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+            let options = parse_options(options_str);
+
+            // if norepl is in the options, return the code block as is
+            if options.contains(&"norepl".to_string()) {
+                return codeblock;
+            }
+
+            let readonly = options.contains(&"readonly".to_string());
 
             get_asset("repl.html")
                 .replace("{id}", &id)
                 .replace("{lang}", lang)
-                .replace("{code}", &code)
+                .replace("{codeblock}", &codeblock)
+                .replace("{readonly}", if readonly { "true" } else { "false" })
         })
         .to_string();
 

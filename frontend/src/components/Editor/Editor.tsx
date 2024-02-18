@@ -17,7 +17,7 @@ const defaultOptions = {
   enableBasicAutocompletion: true,
   enableLiveAutocompletion: true,
   tabSize: 4,
-  minLines: 2,
+  minLines: 1,
   editorProps: { $blockScrolling: true }
 };
 
@@ -32,6 +32,7 @@ export default function Editor() {
         mode={editor.lang}
         value={editor.code}
         className="bg-transparent"
+        readOnly={editor.readonly}
         defaultValue={editor.defaultCode}
         theme={editor.theme === "light" ? "tomorrow" : "tomorrow_night"}
         onChange={(code) => setEditor({ ...editor, code })}

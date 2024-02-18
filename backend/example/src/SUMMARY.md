@@ -3,6 +3,7 @@
 # Basics
 
 - [Intro](intro.md)
+- [Installation](installation.md)
 - [Usage](usage.md)
 - [For Developers](for-developers.md)
 

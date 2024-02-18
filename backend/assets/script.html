@@ -6,6 +6,7 @@
     const id = replElement.getAttribute("data-id");
     const lang = replElement.getAttribute("data-lang");
     const code = replElement.nextElementSibling.innerText.trim();
+    const readonly = replElement.getAttribute("data-readonly") === "true";
     let theme = mapTheme(localStorage.getItem("mdbook-theme"));
 
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
@@ -20,7 +21,7 @@
 
       const repl = event.data.repl;
       // if id is empty means iframe is first loaded, so we send configurations to it
-      if (repl.id === "") postmessage({ id, editor: { theme, lang, code, defaultCode: code } });
+      if (repl.id === "") postmessage({ id, editor: { theme, lang, code, defaultCode: code, readonly } });
       // if id is not empty and it's the same as the current repl, we can receive the data
       else if (repl.id === id) {
         if (repl.editor.theme !== theme) postmessage({ editor: { theme } });

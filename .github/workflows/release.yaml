@@ -56,12 +56,12 @@ jobs:
           name: ${{ matrix.target }}
           path: backend/target/release/mdbook-repl.exe
 
-      # - name: Publish crate
-      #   if: matrix.target == 'x86_64-unknown-linux-gnu'
-      #   run: |
-      #     cd backend
-      #     cargo login ${{ secrets.CARGO_TOKEN }}
-      #     cargo publish
+      - name: Publish crate
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: |
+          cd backend
+          cargo login ${{ secrets.CARGO_TOKEN }}
+          cargo publish
 
   release:
     runs-on: ubuntu-latest

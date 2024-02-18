@@ -4,7 +4,8 @@ const Editor = z.object({
   lang: z.literal("python"),
   code: z.string(),
   theme: z.union([z.literal("light"), z.literal("dark")]),
-  defaultCode: z.string()
+  defaultCode: z.string(),
+  readonly: z.boolean()
 });
 
 type EditorType = z.infer<typeof Editor>;

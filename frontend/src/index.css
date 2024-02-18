@@ -6,11 +6,17 @@ body {
   @apply overflow-y-hidden;
 }
 
+/* ace editor releated */
 .ace-editor:hover ~ .buttons,
 .buttons:hover {
   @apply opacity-100;
 }
 
 .ace_mobile-menu {
-  display: none;
+  @apply hidden;
+}
+
+.ace_editor textarea:read-only ~ .ace_scroller .ace_cursor-layer,
+.ace_editor textarea:read-only ~ .ace_scroller .ace_marker-layer .ace_bracket {
+  @apply hidden;
 }

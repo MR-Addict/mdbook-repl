@@ -47,7 +47,7 @@ export default function Buttons() {
 
   return (
     <div className={clsx(style.wrapper, "buttons")}>
-      <Button name="reset" Icon={FaHistory} onClick={handleReset} />
+      {!editor.readonly && <Button name="reset" Icon={FaHistory} onClick={handleReset} />}
       <Button name="copy" Icon={copied ? IoCheckmark : FaRegCopy} onClick={handleCopy} />
       <Button
         name="play"

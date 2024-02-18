@@ -21,6 +21,7 @@ When the iframe is loaded, it will send a message to the parent window. The mess
       "height": 600
     },
     "editor": {
+      "readonly": false,
       "theme": "light",
       "language": "python",
       "code": "# This is a default python code\n\nprint('Hello world')",
@@ -48,6 +49,7 @@ Here is an example of how to use the **mdbook-repl** in your own project.
   const id = "ac2f5a2";
   const lang = "python";
   const theme = "light";
+  const readonly = false;
   const code = "print('Hello world')";
 
   const iframe = document.querySelector("iframe");
@@ -61,7 +63,7 @@ Here is an example of how to use the **mdbook-repl** in your own project.
     // update the iframe height when new dimensions updated
     if (replData.id === id) replElement.style.height = replData.dimensions.height + "px";
     // if id is empty, it means the iframe is just loaded
-    else if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code } });
+    else if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code, readonly } });
   });
 </script>
 ```

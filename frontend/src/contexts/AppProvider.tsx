@@ -14,7 +14,8 @@ const defaultEditorOptions: EditorType = {
   lang: "python",
   theme: "light",
   code: defaultCode,
-  defaultCode
+  defaultCode,
+  readonly: false
 };
 
 interface AppContextProps {
