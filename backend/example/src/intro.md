@@ -1,18 +1,15 @@
 # Mdbook REPL
 
-This is a python **realtime** playground which uses pyodide **webassembly** to run python code in the browser. So you can run python code in the browser without any server.
+This is a [mdbook](https://rust-lang.github.io/mdBook) playground which uses **webassembly** to execute code in the browser. So you can run code in the browser without any server.
 
-Below is a simple example, you can run the code and see the output.
+This is inspired by mdbook rust playground, but it is not limited to rust. Nowdays, webassembly is very powerful, so I learned it and try to make a playground for multiple languages with mdbook.
 
-**Python**
+Now only **Python** is supported, maybe I will add more languages in the future.
 
 ```python
-# This is a default python code
-import calendar
+# Python
 
-yy = 2024  # year
-mm = 2    # month
-
-# display the calendar
-print(calendar.month(yy, mm))
+print("Hello, World!")
 ```
+
+Tell me if you have any ideas or suggestions.
