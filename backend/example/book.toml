@@ -20,7 +20,7 @@ mathjax-support = true
 copy-fonts = true
 no-section-label = false
 git-repository-url = "https://github.com/MR-Addict/mdbook-repl"
-edit-url-template = "https://github.com/MR-Addict/mdbook-repl/edit/main/example/{path}"
+edit-url-template = "https://github.com/MR-Addict/mdbook-repl/edit/main/backend/example/{path}"
 additional-css = ["assets/css/patch.css"]
 
 [output.html.print]

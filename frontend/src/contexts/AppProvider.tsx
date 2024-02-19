@@ -8,7 +8,7 @@ import useResizeObserver from "@/hooks/useResizeObserver";
 
 const defaultCode = '# This is a default python code\n\nprint("Hello world")';
 
-const defaultOutput: OutputType = { status: "idle", msg: "" };
+const defaultOutput: OutputType = { status: "loading", msg: "" };
 
 const defaultEditorOptions: EditorType = {
   lang: "python",
