@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { GrClear } from "react-icons/gr";
 import { IconType } from "react-icons/lib";
 import { IoCheckmark } from "react-icons/io5";
 import { VscHistory, VscCopy, VscPlay, VscDebugStop } from "react-icons/vsc";
@@ -31,9 +30,8 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, output, setOutput, workers } = useAppContext();
+  const { editor, setEditor, output, workers } = useAppContext();
 
-  const handleClear = () => setOutput({ status: "idle", msg: "" });
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
   const handleCopy = () => {
     setCopied(true);
@@ -49,9 +47,6 @@ export default function Buttons() {
 
   return (
     <div className={clsx(style.wrapper, "buttons")}>
-      {(output.status === "error" || output.status === "success") && output.msg && (
-        <Button title="clear output" Icon={GrClear} onClick={handleClear} />
-      )}
       {output.status !== "loading" && (
         <Button
           title="run code"

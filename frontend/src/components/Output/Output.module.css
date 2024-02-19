@@ -1,12 +1,30 @@
 /* wrapper message */
 .wrapper {
-  @apply text-gray-800 overflow-x-auto p-2 bg-stone-100 font-mono empty:hidden;
-}
-
-.wrapper p {
-  @apply whitespace-nowrap;
+  @apply relative text-gray-800 p-2 bg-stone-100 font-mono empty:hidden;
 }
 
 .wrapper[data-status="error"] {
   @apply text-red-600;
+}
+
+/* output */
+.wrapper p {
+  @apply whitespace-nowrap;
+}
+
+.wrapper[data-wrap="true"] p {
+  @apply whitespace-pre-wrap;
+}
+
+/* wrap button */
+.buttons {
+  @apply sm:opacity-0 absolute right-2 top-2 duration-300 flex flex-row items-center gap-2;
+}
+
+.buttons button {
+  @apply text-gray-500 bg-gray-100 p-1.5 border border-zinc-400 rounded-[5px];
+}
+
+.wrapper:hover .buttons {
+  @apply opacity-100;
 }

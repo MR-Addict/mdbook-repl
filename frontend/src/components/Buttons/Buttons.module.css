@@ -3,8 +3,7 @@
 }
 
 .wrapper button {
-  @apply text-gray-500 bg-gray-100;
-  @apply p-1.5 border border-zinc-400 rounded-[5px];
+  @apply text-gray-500 bg-gray-100 p-1.5 border border-zinc-400 rounded-[5px];
 }
 
 .wrapper button:disabled {

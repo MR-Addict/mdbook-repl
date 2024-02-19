@@ -44,13 +44,19 @@ The **dimensions** is used to set the width and height of the iframe. You can us
 Here is an example of how to use the **mdbook-repl** in your own project.
 
 ```html
-<iframe src="https://mr-addict.github.io/mdbook-repl" width="100%" allow="clipboard-write"></iframe>
+<style>
+  iframe {
+    border: none;
+    width: 100%;
+  }
+</style>
+<iframe src="https://mr-addict.github.io/mdbook-repl/embed" width="100%" allow="clipboard-write"></iframe>
 <script>
   const id = "ac2f5a2";
   const lang = "python";
   const theme = "light";
   const readonly = false;
-  const code = "print('Hello world')";
+  const code = "# Python\n\nprint('Hello world')";
 
   const iframe = document.querySelector("iframe");
   const postmessage = (msg) => iframe.contentWindow.postMessage({ repl: msg }, "*");
@@ -60,10 +66,10 @@ Here is an example of how to use the **mdbook-repl** in your own project.
 
     const replData = event.data.repl;
 
-    // update the iframe height when new dimensions updated
-    if (replData.id === id) replElement.style.height = replData.dimensions.height + "px";
     // if id is empty, it means the iframe is just loaded
-    else if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code, readonly } });
+    if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code, readonly } });
+    // update the iframe height when new dimensions updated
+    else if (replData.id === id) iframe.style.height = replData.dimensions.height + "px";
   });
 </script>
 ```

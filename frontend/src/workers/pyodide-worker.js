@@ -3,13 +3,12 @@ self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 let message = "";
 let pyodide = null;
 
-const stderr = (msg) => (message += msg + "\n");
 const stdout = (msg) => (message += msg + "\n");
 const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, msg } });
 
 async function waitPyodideReady() {
   postmessage("loading", "Python is loading, please wait...");
-  pyodide = await loadPyodide({ stdout, stderr });
+  pyodide = await loadPyodide({ stdout });
   postmessage("idle", "Python is ready");
 }
 
