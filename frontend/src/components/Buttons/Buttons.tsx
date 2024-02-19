@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { useState } from "react";
+import { GrClear } from "react-icons/gr";
 import { IconType } from "react-icons/lib";
 import { IoCheckmark } from "react-icons/io5";
-import { FaRegCopy, FaPlay, FaHistory, FaStop } from "react-icons/fa";
+import { VscHistory, VscCopy, VscPlay, VscDebugStop } from "react-icons/vsc";
 
 import style from "./Buttons.module.css";
 import { useAppContext } from "@/contexts/AppProvider";
@@ -30,8 +31,9 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, output, workers } = useAppContext();
+  const { editor, setEditor, output, setOutput, workers } = useAppContext();
 
+  const handleClear = () => setOutput({ status: "idle", msg: "" });
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
   const handleCopy = () => {
     setCopied(true);
@@ -47,16 +49,19 @@ export default function Buttons() {
 
   return (
     <div className={clsx(style.wrapper, "buttons")}>
+      {(output.status === "error" || output.status === "success") && output.msg && (
+        <Button title="clear output" Icon={GrClear} onClick={handleClear} />
+      )}
       {output.status !== "loading" && (
         <Button
           title="run code"
           onClick={handlePlay}
           disabled={output.status === "running"}
-          Icon={output.status === "running" ? FaStop : FaPlay}
+          Icon={output.status === "running" ? VscDebugStop : VscPlay}
         />
       )}
-      {!editor.readonly && <Button title="reset code" Icon={FaHistory} onClick={handleReset} />}
-      <Button title="copy code" Icon={copied ? IoCheckmark : FaRegCopy} onClick={handleCopy} />
+      {!editor.readonly && <Button title="reset code" Icon={VscHistory} onClick={handleReset} />}
+      <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
     </div>
   );
 }

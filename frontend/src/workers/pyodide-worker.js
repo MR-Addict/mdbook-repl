@@ -33,7 +33,7 @@ self.onmessage = async (event) => {
         postmessage("running", "Python is running, please wait...");
         await pyodide.loadPackagesFromImports(code);
         await pyodide.runPythonAsync(code);
-        postmessage("success", message.trim());
+        postmessage("success", message.trim() || "Sorry, there is no output");
       } catch (err) {
         postmessage("error", err.message);
       } finally {

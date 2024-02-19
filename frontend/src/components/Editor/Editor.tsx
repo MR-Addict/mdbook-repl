@@ -1,23 +1,21 @@
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/theme-tomorrow";
-import "ace-builds/src-noconflict/theme-tomorrow_night";
-import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/theme-monokai";
 
 import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
-  placeholder: "Try writing some code...",
-  fontSize: 16,
-  showPrintMargin: false,
-  highlightActiveLine: false,
-  showGutter: false,
-  maxLines: Infinity,
-  enableBasicAutocompletion: true,
-  enableLiveAutocompletion: true,
   tabSize: 4,
   minLines: 1,
+  fontSize: 16,
+  showGutter: false,
+  maxLines: Infinity,
+  showPrintMargin: false,
+  highlightActiveLine: false,
+  enableLiveAutocompletion: false,
+  enableBasicAutocompletion: false,
+  placeholder: "Try writing some code...",
   editorProps: { $blockScrolling: true }
 };
 
@@ -34,7 +32,7 @@ export default function Editor() {
         className="bg-transparent"
         readOnly={editor.readonly}
         defaultValue={editor.defaultCode}
-        theme={editor.theme === "light" ? "tomorrow" : "tomorrow_night"}
+        theme={editor.theme === "light" ? "textmate" : "monokai"}
         onChange={(code) => setEditor({ ...editor, code })}
         {...defaultOptions}
       />

@@ -1,6 +1,8 @@
-import Editor from "@/components/Editor/Editor";
-import Buttons from "@/components/Buttons/Buttons";
-import Output from "@/components/Output/Output";
+import React from "react";
+
+const Editor = React.lazy(() => import("@/components/Editor/Editor"));
+const Output = React.lazy(() => import("@/components/Output/Output"));
+const Buttons = React.lazy(() => import("@/components/Buttons/Buttons"));
 
 export default function App() {
   return (

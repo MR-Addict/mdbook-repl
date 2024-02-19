@@ -1,29 +1,12 @@
+/* wrapper message */
 .wrapper {
-  @apply relative text-gray-800;
+  @apply text-gray-800 overflow-x-auto p-2 bg-stone-100 font-mono empty:hidden;
 }
 
-.wrapper:hover .clear-button {
-  @apply opacity-100;
-}
-
-/* output message */
-.output {
-  @apply overflow-x-auto p-2 bg-stone-100 font-mono empty:hidden;
-}
-
-.output p {
+.wrapper p {
   @apply whitespace-nowrap;
 }
 
-.wrapper[data-status="error"] .output {
+.wrapper[data-status="error"] {
   @apply text-red-600;
-}
-
-/* clear button */
-.clear-button {
-  @apply rounded-full text-gray-500 absolute right-2 top-2 sm:opacity-0 duration-300;
-}
-
-.clear-button:disabled {
-  @apply hidden cursor-not-allowed;
 }
