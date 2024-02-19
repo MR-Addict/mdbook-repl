@@ -8,7 +8,11 @@
 
 /* output message */
 .output {
-  @apply whitespace-pre-wrap p-2 bg-stone-100 font-mono empty:hidden;
+  @apply overflow-x-auto p-2 bg-stone-100 font-mono empty:hidden;
+}
+
+.output p {
+  @apply whitespace-nowrap;
 }
 
 .wrapper[data-status="error"] .output {
