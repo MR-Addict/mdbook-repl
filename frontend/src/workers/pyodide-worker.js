@@ -25,9 +25,11 @@ self.onmessage = async (event) => {
     // wait for pyodide to be ready
     if (!pyodide) await waitPyodideReady();
 
+    // run the python code
     if (!code) postmessage("error", "Python code is empty");
     else {
       try {
+        message = "";
         postmessage("running", "Python is running, please wait...");
         await pyodide.loadPackagesFromImports(code);
         await pyodide.runPythonAsync(code);
