@@ -1,7 +1,10 @@
+use crate::cfg;
+
 use mdbook::{
     book::Book,
     errors::Error,
     preprocess::{Preprocessor, PreprocessorContext},
+    Config,
 };
 use regex::Regex;
 use rust_embed::RustEmbed;
@@ -32,7 +35,7 @@ fn parse_options(options_str: &str) -> Vec<String> {
         .collect()
 }
 
-fn render_repls(content: &str) -> (bool, String) {
+fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
     let re = Regex::new(r"(?s)```(py|python),?(.*?)\r?\n(.*?)```").unwrap();
 
@@ -52,8 +55,12 @@ fn render_repls(content: &str) -> (bool, String) {
             let options_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let options = parse_options(options_str);
 
+            // get the config options
+            let python = cfg::get_config_bool(config, "python.enable");
+            let loading = cfg::get_config_string(config, "python.loading", "lazy");
+
             // if norepl is in the options, return the code block as is
-            if options.contains(&"norepl".to_string()) {
+            if !python || options.contains(&"norepl".to_string()) {
                 return codeblock;
             }
 
@@ -62,6 +69,7 @@ fn render_repls(content: &str) -> (bool, String) {
             get_asset("repl.html")
                 .replace("{id}", &id)
                 .replace("{lang}", lang)
+                .replace("{loading}", &loading)
                 .replace("{codeblock}", &codeblock)
                 .replace("{readonly}", if readonly { "true" } else { "false" })
         })
@@ -75,10 +83,12 @@ impl Preprocessor for Repl {
         "mdbook-repl"
     }
 
-    fn run(&self, _ctx: &PreprocessorContext, mut book: Book) -> Result<Book, Error> {
+    fn run(&self, ctx: &PreprocessorContext, mut book: Book) -> Result<Book, Error> {
+        let config = &ctx.config;
+
         book.for_each_mut(|item| {
             if let mdbook::book::BookItem::Chapter(chapter) = item {
-                let (repl_found, rendered) = render_repls(&chapter.content);
+                let (repl_found, rendered) = render_repls(&chapter.content, config);
                 if repl_found {
                     chapter.content = rendered;
                     chapter.content.push_str(&get_asset("script.html"));

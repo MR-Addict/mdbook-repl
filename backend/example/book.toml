@@ -48,3 +48,6 @@ copy-js = true
 
 [preprocessor.repl]
 command = "target/release/mdbook-repl"
+
+python.enable = true
+python.loading = "lazy"

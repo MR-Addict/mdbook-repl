@@ -47,6 +47,9 @@ export default function Buttons() {
 
   return (
     <div className={clsx(style.wrapper, "buttons")}>
+      {!editor.readonly && editor.code !== editor.defaultCode && (
+        <Button title="reset code" Icon={VscHistory} onClick={handleReset} />
+      )}
       {output.status !== "loading" && (
         <Button
           title="run code"
@@ -55,7 +58,6 @@ export default function Buttons() {
           Icon={output.status === "running" ? VscDebugStop : VscPlay}
         />
       )}
-      {!editor.readonly && <Button title="reset code" Icon={VscHistory} onClick={handleReset} />}
       <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
     </div>
   );

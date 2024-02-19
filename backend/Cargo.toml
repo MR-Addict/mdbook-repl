@@ -4,6 +4,7 @@ version = "0.1.1"
 edition = "2021"
 license = "MIT"
 readme = "../README.md"
+exclude = ["example/*"]
 keywords = ["mdbook", "repl", "plugin", "preprocessor"]
 authors = ["MR-Addict <MR-Addict@qq.com>"]
 repository = "https://github.com/MR-Addict/mdbook-repl"

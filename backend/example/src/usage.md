@@ -18,13 +18,17 @@ You can check if the installation is successful by running:
 mdbook-repl --version
 ```
 
-## Basics
+## Configuration
 
 After you installed the preprocessor, you can use it in your **mdbook** project. You need to add the following code to your **book.toml**, so that **mdbook** can use this preprocessor to preprocess your markdown files.
 
 ```toml
 [preprocessor.repl]
+python.enable = true
+python.loading = "lazy"
 ```
+
+Which means you enable the preprocessor for python codeblock, and the python codeblock will be loaded lazily. You can also specify the **loading** to **eager**, but it's not recommended.
 
 After that, all your markdown files that contain python codeblock will be processed by this preprocessor. It's just like magic.
 
@@ -55,27 +59,27 @@ This preprocessor only recongnizes specific extensions for sepecific language. F
 You can also specific some options for the codeblock. For example, you can specify the **readonly** for the codeblock, so that the codeblock will not be eidtable.
 
 <pre><code>
-&#96;&#96;&#96;python, readonly
+&#96;&#96;&#96;python,readonly
 print("This is a readonly python codeblock")
 &#96;&#96;&#96;
 </code></pre>
 
 You can test below codeblock to see the result.
 
-```python, readonly
+```python,readonly
 print("This is a readonly python codeblock")
 ```
 
 And if you put **norepl** in the codeblock, the codeblock will not be rendered by this preprocessor.
 
 <pre><code>
-&#96;&#96;&#96;python, norepl
+&#96;&#96;&#96;python,norepl
 print("This is codeblock will not be rendered")
 &#96;&#96;&#96;
 </code></pre>
 
 You can test below codeblock to see the result.
 
-```python, norepl
+```python,norepl
 print("This is codeblock will not be rendered")
 ```
