@@ -32,7 +32,7 @@ function Button({ Icon, onClick, title, disabled }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, outputs, setOutputs, workers } = useAppContext();
+  const { editor, setEditor, outputs, setOutputs, worker } = useAppContext();
 
   const output = outputs[editor.lang];
 
@@ -45,7 +45,6 @@ export default function Buttons() {
 
   // post message to worker
   const handlePlay = () => {
-    const worker = workers.find((w) => w.lang === editor.lang)?.worker;
     if (worker) {
       setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "running", data: [] } }));
       worker.postMessage({ lang: editor.lang, code: editor.code });

@@ -50,7 +50,7 @@ Here is an example of how to use the **mdbook-repl** in your own project.
     width: 100%;
   }
 </style>
-<iframe src="https://mr-addict.github.io/mdbook-repl/embed" width="100%" allow="clipboard-write"></iframe>
+<iframe src="http://localhost:4173" width="100%" allow="clipboard-write"></iframe>
 <script>
   const id = "ac2f5a2";
   const lang = "python";
@@ -69,7 +69,13 @@ Here is an example of how to use the **mdbook-repl** in your own project.
     // if id is empty, it means the iframe is just loaded
     if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code, readonly } });
     // update the iframe height when new dimensions updated
-    else if (replData.id === id) iframe.style.height = replData.dimensions.height + "px";
+    else if (replData.id === id) {
+      if (replData.editor.theme !== theme) postmessage({ editor: { theme } });
+      else if (replData.editor.lang !== lang) postmessage({ editor: { lang } });
+      else if (replData.editor.readonly !== readonly) postmessage({ editor: { readonly } });
+      else if (replData.editor.defaultCode !== code) postmessage({ editor: { defaultCode: code } });
+      else iframe.style.height = replData.dimensions.height + "px";
+    }
   });
 </script>
 ```

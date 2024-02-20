@@ -1,4 +1,4 @@
-self.importScripts("https://unpkg.com/@babel/standalone/babel.min.js");
+self.importScripts("https://unpkg.com/@babel/standalone@7.23.10/babel.min.js");
 
 const postmessage = (status, msg) => self.postMessage({ lang: "typescript", output: { status, data: msg } });
 

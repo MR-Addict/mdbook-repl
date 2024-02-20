@@ -24,3 +24,5 @@ self.onmessage = async (event) => {
     }
   }
 };
+
+postmessage("idle", []);
