@@ -4,14 +4,18 @@
 
 - [Intro](intro.md)
 - [Usage](usage.md)
+- [Limitations](limitations.md)
 - [For Developers](for-developers.md)
 
 # Languages
 
-- [Python](python/intro.md)
-  - [Version](python/version.md)
+- [Python]()
+  - [Intro](python/intro.md)
   - [Packages](python/packages.md)
-  - [Limitations](python/limitations.md)
-- [C]()
-- [C++]()
+  - [Examples](python/examples.md)
+- [Typescript]()
+  - [Intro](typescript/intro.md)
+  - [Examples](typescript/examples.md)
 - [Javascript]()
+  - [Intro](javascript/intro.md)
+  - [Examples](javascript/examples.md)

@@ -2,6 +2,7 @@ import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-typescript";
+import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import { useAppContext } from "@/contexts/AppProvider";
@@ -32,7 +33,7 @@ export default function Editor() {
         className="bg-transparent"
         readOnly={editor.readonly}
         defaultValue={editor.defaultCode}
-        tabSize={editor.lang === "typescript" ? 2 : 4}
+        tabSize={editor.lang === "python" ? 4 : 2}
         theme={editor.theme === "light" ? "textmate" : "monokai"}
         onChange={(code) => setEditor({ ...editor, code })}
         {...defaultOptions}

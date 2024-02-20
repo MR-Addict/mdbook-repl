@@ -1,6 +1,6 @@
 import z from "zod";
 
-const Languages = z.union([z.literal("python"), z.literal("typescript")]);
+const Languages = z.union([z.literal("python"), z.literal("typescript"), z.literal("javascript")]);
 
 const Editor = z.object({
   lang: Languages,

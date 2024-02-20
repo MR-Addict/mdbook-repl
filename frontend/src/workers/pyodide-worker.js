@@ -14,7 +14,6 @@ const stdout = (msg) => {
 };
 
 async function waitPyodideReady() {
-  postmessage("loading", [{ color: "normal", msg: "Python is loading..." }]);
   pyodide = await loadPyodide({ stderr, stdout });
   postmessage("idle", [{ color: "normal", msg: "Python is ready" }]);
 }

@@ -51,3 +51,9 @@ command = "target/release/mdbook-repl"
 
 python.enable = true
 python.loading = "lazy"
+
+typescript.enable = true
+typescript.loading = "lazy"
+
+javascript.enable = true
+javascript.loading = "lazy"

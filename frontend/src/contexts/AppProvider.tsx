@@ -8,20 +8,21 @@ import useResizeObserver from "@/hooks/useResizeObserver";
 
 const defaultOutputs: OutputsType = {
   python: { status: "loading", data: [] },
-  typescript: { status: "loading", data: [] }
+  typescript: { status: "loading", data: [] },
+  javascript: { status: "idle", data: [] }
 };
 
 const defaultCodes = {
   python: '# This is a default python code\n\nprint("Hello world")',
-  typescript:
-    '// This is a default typescript code\nfunction greet(msg: string){\n  console.log(msg);\n}\n\ngreet("Hello world");'
+  typescript: '// This is a default typescript code\n\nlet message: string = "Hello, world!";\nconsole.log(message);',
+  javascript: '// This is a default javascript code\n\nlet message = "Hello, world!";\nconsole.log(message);'
 };
 
 const defaultEditorOptions: EditorType = {
   theme: "light",
-  lang: "python",
-  code: defaultCodes.python,
-  defaultCode: defaultCodes.python,
+  lang: "javascript",
+  code: defaultCodes.javascript,
+  defaultCode: defaultCodes.javascript,
   readonly: false
 };
 
@@ -51,7 +52,8 @@ interface AppContextProviderProps {
 
 const workers = [
   { lang: "python", worker: new Worker(new URL("@/workers/pyodide-worker.js", import.meta.url)) },
-  { lang: "typescript", worker: new Worker(new URL("@/workers/babel-worker.js", import.meta.url)) }
+  { lang: "typescript", worker: new Worker(new URL("@/workers/babel-worker.js", import.meta.url)) },
+  { lang: "javascript", worker: new Worker(new URL("@/workers/javascript-worker.js", import.meta.url)) }
 ];
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {

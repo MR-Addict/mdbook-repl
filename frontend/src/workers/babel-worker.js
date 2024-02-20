@@ -6,7 +6,6 @@ self.console.error = (...msg) => postmessage("running", [{ color: "red", msg: ms
 self.console.log = (...msgs) => postmessage("running", [{ color: "normal", msg: msgs.join(" ") }]);
 
 async function waitBabelReady() {
-  postmessage("loading", [{ color: "normal", msg: "TypeScript is loading..." }]);
   Babel.transform("", { filename: "typescript.ts", presets: ["typescript"] });
   postmessage("idle", [{ color: "normal", msg: "TypeScript is ready" }]);
 }

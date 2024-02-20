@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply overflow-y-auto;
+  @apply overflow-y-hidden;
 }
 
 /* ace editor releated */

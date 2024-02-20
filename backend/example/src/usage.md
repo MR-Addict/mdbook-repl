@@ -54,6 +54,14 @@ print("Hello, world!")
 
 This preprocessor only recongnizes specific extensions for sepecific language. For example, you can only use **python** or **py** codeblock for python code.
 
+Here is the full list of extensions:
+
+| Language   | Extensions     |
+| :--------- | :------------- |
+| Python     | python, py     |
+| TypeScript | typescript, ts |
+| JavaScript | javascript, js |
+
 ## Options
 
 You can also specific some options for the codeblock. For example, you can specify the **readonly** for the codeblock, so that the codeblock will not be eidtable.

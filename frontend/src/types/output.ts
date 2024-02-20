@@ -12,7 +12,8 @@ const Output = z.object({
 
 const Outputs = z.object({
   python: Output,
-  typescript: Output
+  typescript: Output,
+  javascript: Output
 });
 
 type OutputType = z.infer<typeof Output>;

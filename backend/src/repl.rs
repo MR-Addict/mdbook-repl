@@ -35,9 +35,19 @@ fn parse_options(options_str: &str) -> Vec<String> {
         .collect()
 }
 
+fn map_lang(raw_lang: &str) -> &str {
+    match raw_lang {
+        "py" | "python" => "python",
+        "ts" | "typescript" => "typescript",
+        "js" | "javascript" => "javascript",
+        _ => "python",
+    }
+}
+
 fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
-    let re = Regex::new(r"(?s)```(py|python),?(.*?)\r?\n(.*?)```").unwrap();
+    let langs = "py|python|ts|typescript|js|javascript";
+    let re = Regex::new(&format!(r"(?s)```({}),?(.*?)\r?\n(.*?)```", langs)).unwrap();
 
     // if there are no matches, return the content as is
     if !re.is_match(content) {
@@ -47,24 +57,24 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // replace all matches with the repl html
     let rendered = re
         .replace_all(content, |caps: &regex::Captures| {
-            let lang = "python";
             let id = Uuid::new_v4().to_string();
             let code = caps.get(3).map(|m| m.as_str()).unwrap_or("").trim();
+            let raw_lang = caps.get(1).map(|m| m.as_str()).unwrap_or("").trim();
 
+            let lang = map_lang(raw_lang);
             let codeblock = format!("```{}\n{}\n```", lang, code);
             let options_str = caps.get(2).map(|m| m.as_str()).unwrap_or("");
             let options = parse_options(options_str);
+            let readonly = options.contains(&"readonly".to_string());
 
             // get the config options
-            let python = cfg::get_config_bool(config, "python.enable");
-            let loading = cfg::get_config_string(config, "python.loading", "lazy");
+            let enable = cfg::get_config_bool(config, &format!("{}.enable", lang));
+            let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
 
             // if norepl is in the options, return the code block as is
-            if !python || options.contains(&"norepl".to_string()) {
+            if !enable || options.contains(&"norepl".to_string()) {
                 return codeblock;
             }
-
-            let readonly = options.contains(&"readonly".to_string());
 
             get_asset("repl.html")
                 .replace("{id}", &id)
