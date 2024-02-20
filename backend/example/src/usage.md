@@ -26,6 +26,13 @@ After you installed the preprocessor, you can use it in your **mdbook** project.
 [preprocessor.repl]
 python.enable = true
 python.loading = "lazy"
+
+typescript.enable = true
+typescript.loading = "lazy"
+
+javascript.enable = true
+javascript.loading = "lazy"
+
 ```
 
 Which means you enable the preprocessor for python codeblock, and the python codeblock will be loaded lazily. You can also specify the **loading** to **eager**, but it's not recommended.

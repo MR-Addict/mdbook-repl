@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { IoCheckmark } from "react-icons/io5";
-import { VscHistory, VscCopy, VscPlay, VscDebugStop, VscLoading } from "react-icons/vsc";
+import { VscHistory, VscCopy, VscPlay, VscLoading } from "react-icons/vsc";
 
 import style from "./Buttons.module.css";
 import { useAppContext } from "@/contexts/AppProvider";
