@@ -54,12 +54,7 @@ export default function Buttons() {
         <Button title="reset code" Icon={VscHistory} onClick={handleReset} />
       )}
       {output.status !== "loading" && (
-        <Button
-          title="run code"
-          onClick={handlePlay}
-          disabled={output.status === "running"}
-          Icon={output.status === "running" ? VscDebugStop : VscPlay}
-        />
+        <Button title="run code" onClick={handlePlay} Icon={output.status === "running" ? VscDebugStop : VscPlay} />
       )}
       <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
     </div>

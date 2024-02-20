@@ -16,24 +16,23 @@ self.onmessage = async (event) => {
 
   // only run the code if the language is python
   const { lang, code } = event.data;
-  if (lang === "python") {
-    // add all the context to the worker
-    for (const key of Object.keys(context)) self[key] = context[key];
+  if (lang !== "python") return;
 
-    // wait for pyodide to be ready
-    if (!pyodide) await waitPyodideReady();
+  // add all the context to the worker
+  for (const key of Object.keys(context)) self[key] = context[key];
 
-    // run the python code
-    if (!code) postmessage("finished", [{ color: "normal", msg: "Python code is empty" }]);
-    else {
-      try {
-        await pyodide.loadPackagesFromImports(code);
-        await pyodide.runPythonAsync(code);
-        postmessage("finished", []);
-      } catch (err) {
-        postmessage("finished", [{ color: "red", msg: err.message }]);
-      }
-    }
+  // wait for pyodide to be ready
+  if (!pyodide) await waitPyodideReady();
+
+  // run the python code
+  if (!code) postmessage("finished", [{ color: "normal", msg: "Python code is empty" }]);
+  else {
+    postmessage("running", []);
+    await pyodide.loadPackagesFromImports(code);
+    pyodide
+      .runPythonAsync(code)
+      .then(() => postmessage("finished", []))
+      .catch((err) => postmessage("finished", [{ color: "red", msg: err.message }]));
   }
 };
 

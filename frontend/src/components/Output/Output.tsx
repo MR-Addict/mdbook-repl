@@ -32,12 +32,19 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 export default function Output() {
   const { output, setOutput } = useAppContext();
 
-  if (output.status === "idle" || output.status === "loading") return null;
+  if (
+    output.status === "idle" ||
+    output.status === "loading" ||
+    (output.status === "running" && output.data.length === 0)
+  )
+    return null;
 
   return (
     <div className={clsx(style.wrapper, "dark:bg-zinc-800")}>
       <div className={clsx(style.output, "dark:text-gray-300")}>
-        {output.data.length === 0 && <p className={style.line}>&gt; Sorry, ther is no output</p>}
+        {output.data.length === 0 && output.status === "finished" && (
+          <p className={style.line}>&gt; Sorry, there is no output</p>
+        )}
         {output.data.map((line, index) => (
           <p key={index} data-color={line.color} className={style.line}>
             {"> " + line.msg}
