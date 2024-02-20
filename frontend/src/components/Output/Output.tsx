@@ -30,7 +30,9 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 }
 
 export default function Output() {
-  const { output, setOutput } = useAppContext();
+  const { editor, outputs, setOutputs } = useAppContext();
+
+  const output = outputs[editor.lang];
 
   if (
     output.status === "idle" ||
@@ -52,7 +54,11 @@ export default function Output() {
         ))}
       </div>
       <div className={style.buttons}>
-        <Button title="clear output" Icon={GrClear} onClick={() => setOutput({ status: "idle", data: [] })} />
+        <Button
+          title="clear output"
+          Icon={GrClear}
+          onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
+        />
       </div>
     </div>
   );

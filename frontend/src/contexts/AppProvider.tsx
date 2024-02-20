@@ -1,20 +1,27 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
 import { MessageType } from "@/types/message";
-import { Output, OutputType } from "@/types/output";
-import { Editor, EditorType } from "@/types/editor";
+import { Output, OutputType, OutputsType } from "@/types/output";
+import { Editor, EditorType, Languages, LanguagesType } from "@/types/editor";
 
 import useResizeObserver from "@/hooks/useResizeObserver";
 
-const defaultCode = '# This is a default python code\n\nprint("Hello world")';
+const defaultOutputs: OutputsType = {
+  python: { status: "loading", data: [] },
+  typescript: { status: "loading", data: [] }
+};
 
-const defaultOutput: OutputType = { status: "loading", data: [] };
+const defaultCodes = {
+  python: '# This is a default python code\n\nprint("Hello world")',
+  typescript:
+    '// This is a default typescript code\nfunction greet(msg: string){\n  console.log(msg);\n}\n\ngreet("Hello world");'
+};
 
 const defaultEditorOptions: EditorType = {
-  lang: "python",
   theme: "light",
-  code: defaultCode,
-  defaultCode,
+  lang: "python",
+  code: defaultCodes.python,
+  defaultCode: defaultCodes.python,
   readonly: false
 };
 
@@ -22,8 +29,8 @@ interface AppContextProps {
   editor: EditorType;
   setEditor: Dispatch<SetStateAction<EditorType>>;
 
-  output: OutputType;
-  setOutput: Dispatch<SetStateAction<OutputType>>;
+  outputs: OutputsType;
+  setOutputs: Dispatch<SetStateAction<OutputsType>>;
 
   workers: { lang: string; worker: Worker }[];
 }
@@ -32,8 +39,8 @@ const AppContext = createContext<AppContextProps>({
   editor: defaultEditorOptions,
   setEditor: () => {},
 
-  output: defaultOutput,
-  setOutput: () => [],
+  outputs: defaultOutputs,
+  setOutputs: () => {},
 
   workers: []
 });
@@ -42,25 +49,38 @@ interface AppContextProviderProps {
   children: React.ReactNode;
 }
 
-const workers = [{ lang: "python", worker: new Worker(new URL("@/workers/pyodide-worker.js", import.meta.url)) }];
+const workers = [
+  { lang: "python", worker: new Worker(new URL("@/workers/pyodide-worker.js", import.meta.url)) },
+  { lang: "typescript", worker: new Worker(new URL("@/workers/babel-worker.js", import.meta.url)) }
+];
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const dimensions = useResizeObserver("#root");
 
   const [id, setId] = useState<string>("");
-  const [output, setOutput] = useState<OutputType>(defaultOutput);
+  const [outputs, setOutputs] = useState<OutputsType>(defaultOutputs);
   const [editor, setEditor] = useState<EditorType>(defaultEditorOptions);
+
+  function setOutput(lang: LanguagesType, output: OutputType) {
+    setOutputs((prev) => ({ ...prev, [lang]: { status: output.status, data: [...prev[lang].data, ...output.data] } }));
+  }
 
   // listen theme change
   useEffect(() => {
     document.body.classList.toggle("dark", editor.theme === "dark");
   }, [editor.theme]);
 
+  // listen lang change
+  useEffect(() => {
+    setEditor((prev) => ({ ...prev, code: defaultCodes[prev.lang], defaultCode: defaultCodes[prev.lang] }));
+  }, [editor.lang]);
+
   // post message to parent window
   useEffect(() => {
+    const output = outputs[editor.lang];
     const message: MessageType = { id, editor, output, dimensions };
     window.parent.postMessage({ repl: message }, "*");
-  }, [dimensions, output, editor]);
+  }, [dimensions, outputs, editor]);
 
   // listen for messages from parent window
   useEffect(() => {
@@ -78,25 +98,16 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   // listen for messages from worker
   useEffect(() => {
     const onmessage = (event: MessageEvent) => {
-      const result = Output.safeParse(event.data.output);
-      if (!result.success) setOutput({ status: "finished", data: [{ color: "red", msg: result.error.message }] });
-      else {
-        setOutput((prev) => {
-          const data = result.data.data;
-          const last = data.at(-1);
-          if (last) {
-            if (last.msg === "FLUSHHH") data.pop();
-            else if (last.msg.includes("FLUSHHH")) last.msg = last.msg.replace("FLUSHHH", "");
-          }
-          return { status: result.data.status, data: [...prev.data, ...data] };
-        });
-      }
+      const parsedOutput = Output.safeParse(event.data.output);
+      const parsedLang = Languages.safeParse(event.data.lang);
+      if (!parsedOutput.success || !parsedLang.success) return;
+      setOutput(parsedLang.data, parsedOutput.data);
     };
     workers.forEach((w) => (w.worker.onmessage = onmessage));
   }, []);
 
   return (
-    <AppContext.Provider value={{ editor, setEditor, output, setOutput, workers }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ editor, setEditor, outputs, setOutputs, workers }}>{children}</AppContext.Provider>
   );
 };
 

@@ -1,7 +1,9 @@
 import z from "zod";
 
+const Languages = z.union([z.literal("python"), z.literal("typescript")]);
+
 const Editor = z.object({
-  lang: z.literal("python"),
+  lang: Languages,
   code: z.string(),
   theme: z.union([z.literal("light"), z.literal("dark")]),
   defaultCode: z.string(),
@@ -9,6 +11,7 @@ const Editor = z.object({
 });
 
 type EditorType = z.infer<typeof Editor>;
+type LanguagesType = z.infer<typeof Languages>;
 
-export { Editor };
-export type { EditorType };
+export { Editor, Languages };
+export type { EditorType, LanguagesType };

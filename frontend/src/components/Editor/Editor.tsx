@@ -1,12 +1,12 @@
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
-  tabSize: 4,
   minLines: 1,
   fontSize: 16,
   showGutter: false,
@@ -32,6 +32,7 @@ export default function Editor() {
         className="bg-transparent"
         readOnly={editor.readonly}
         defaultValue={editor.defaultCode}
+        tabSize={editor.lang === "typescript" ? 2 : 4}
         theme={editor.theme === "light" ? "textmate" : "monokai"}
         onChange={(code) => setEditor({ ...editor, code })}
         {...defaultOptions}

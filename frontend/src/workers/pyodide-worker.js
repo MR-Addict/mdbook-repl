@@ -4,7 +4,14 @@ let pyodide = null;
 
 const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: msg } });
 const stderr = (msg) => postmessage("running", [{ color: "red", msg }]);
-const stdout = (msg) => postmessage("running", [{ color: "normal", msg }]);
+const stdout = (msg) => {
+  // if the message is FLUSHHH, then ignore it
+  if (msg === "FLUSHHH") return;
+
+  // remove the FLUSHHH from the message
+  if (msg.includes("FLUSHHH")) msg = msg.replace("FLUSHHH", "");
+  postmessage("running", [{ color: "normal", msg }]);
+};
 
 async function waitPyodideReady() {
   postmessage("loading", [{ color: "normal", msg: "Python is loading..." }]);

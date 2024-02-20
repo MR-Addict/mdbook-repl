@@ -5,12 +5,18 @@ const Output = z.object({
   data: z.array(
     z.object({
       msg: z.string(),
-      color: z.union([z.literal("red"), z.literal("normal")])
+      color: z.union([z.literal("red"), z.literal("yellow"), z.literal("normal")])
     })
   )
 });
 
-type OutputType = z.infer<typeof Output>;
+const Outputs = z.object({
+  python: Output,
+  typescript: Output
+});
 
-export { Output };
-export type { OutputType };
+type OutputType = z.infer<typeof Output>;
+type OutputsType = z.infer<typeof Outputs>;
+
+export { Output, Outputs };
+export type { OutputType, OutputsType };
