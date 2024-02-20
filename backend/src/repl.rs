@@ -68,7 +68,7 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
             let readonly = options.contains(&"readonly".to_string());
 
             // get the config options
-            let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), true);
+            let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), false);
             let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
 
             // if norepl is in the options, return the code block as is

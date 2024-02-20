@@ -35,7 +35,9 @@ javascript.loading = "lazy"
 
 ```
 
-Which means you enable the preprocessor for python codeblock, and the python codeblock will be loaded lazily. You can also specify the **loading** to **eager**, but it's not recommended.
+Every language is disabled by default which means your book will not be processed by this preprocessor. You can enable the language you want to use by setting the **enable** to **true**.
+
+You can also specify the **loading** for the language. The **loading** can be **eager** or **lazy**. If you set the **loading** to **eager**, the codeblock will be rendered when the page is loaded. If you set the **loading** to **lazy**, the codeblock will be rendered when the codeblock is in the view. The default value is **lazy**.
 
 After that, all your markdown files that contain python codeblock will be processed by this preprocessor. It's just like magic.
 

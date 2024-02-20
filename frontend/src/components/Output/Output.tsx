@@ -10,13 +10,11 @@ interface ButtonProps {
   title: string;
   Icon: IconType;
   onClick: () => void;
-  disabled?: boolean;
 }
 
-function Button({ Icon, onClick, disabled, title }: ButtonProps) {
+function Button({ Icon, onClick, title }: ButtonProps) {
   return (
     <button
-      disabled={disabled}
       type="button"
       onClick={onClick}
       title={title}
