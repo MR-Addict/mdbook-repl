@@ -12,10 +12,9 @@ interface ButtonProps {
   Icon: IconType;
   onClick: () => void;
   disabled?: boolean;
-  iconClass?: string;
 }
 
-function Button({ Icon, onClick, title, disabled, iconClass }: ButtonProps) {
+function Button({ Icon, onClick, title, disabled }: ButtonProps) {
   return (
     <button
       disabled={disabled}
@@ -23,10 +22,10 @@ function Button({ Icon, onClick, title, disabled, iconClass }: ButtonProps) {
       onClick={onClick}
       title={title}
       className={
-        "dark:bg-zinc-900 dark:text-gray-400 sm:dark:enabled:hover:text-gray-300 sm:enabled:hover:text-blue-600 dark:border-zinc-600"
+        "dark:bg-zinc-900 dark:text-gray-400 sm:dark:enabled:hover:text-gray-300 sm:enabled:hover:text-blue-600 dark:border-zinc-600 group"
       }
     >
-      <Icon size={13} className={iconClass} />
+      <Icon size={13} className="group-disabled:animate-spin" />
     </button>
   );
 }
@@ -61,9 +60,8 @@ export default function Buttons() {
       <Button
         title="run code"
         onClick={handlePlay}
-        iconClass={clsx({ "animate-spin": output.status === "loading" })}
         disabled={output.status === "loading" || output.status === "running"}
-        Icon={output.status === "loading" ? VscLoading : output.status === "running" ? VscDebugStop : VscPlay}
+        Icon={output.status === "loading" || output.status === "running" ? VscLoading : VscPlay}
       />
       <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
     </div>

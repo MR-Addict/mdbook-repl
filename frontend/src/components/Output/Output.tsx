@@ -54,11 +54,13 @@ export default function Output() {
         ))}
       </div>
       <div className={style.buttons}>
-        <Button
-          title="clear output"
-          Icon={GrClear}
-          onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
-        />
+        {output.status === "finished" && (
+          <Button
+            Icon={GrClear}
+            title="clear output"
+            onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
+          />
+        )}
       </div>
     </div>
   );

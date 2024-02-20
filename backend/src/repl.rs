@@ -46,7 +46,7 @@ fn map_lang(raw_lang: &str) -> &str {
 
 fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
-    let langs = "py|python|ts|typescript|js|javascript";
+    let langs = r"\bpy\b|\bpython\b|\bts\b|\btypescript\b|\bjs\b|\bjavascript\b";
     let re = Regex::new(&format!(r"(?s)```({}),?(.*?)\r?\n(.*?)```", langs)).unwrap();
 
     // if there are no matches, return the content as is
@@ -68,7 +68,7 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
             let readonly = options.contains(&"readonly".to_string());
 
             // get the config options
-            let enable = cfg::get_config_bool(config, &format!("{}.enable", lang));
+            let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), true);
             let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
 
             // if norepl is in the options, return the code block as is

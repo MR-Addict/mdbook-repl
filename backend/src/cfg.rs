@@ -1,10 +1,10 @@
 use mdbook::Config;
 
-pub fn get_config_bool(config: &Config, key: &str) -> bool {
+pub fn get_config_bool(config: &Config, key: &str, default: bool) -> bool {
     config
         .get(format!("preprocessor.repl.{}", key).as_str())
         .and_then(|v| v.as_bool())
-        .unwrap_or(false)
+        .unwrap_or(default.to_owned())
 }
 
 pub fn get_config_string(config: &Config, key: &str, default: &str) -> String {

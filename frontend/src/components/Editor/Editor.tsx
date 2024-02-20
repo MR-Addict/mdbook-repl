@@ -33,6 +33,7 @@ export default function Editor() {
         className="bg-transparent"
         readOnly={editor.readonly}
         defaultValue={editor.defaultCode}
+        setOptions={{ useWorker: false }}
         tabSize={editor.lang === "python" ? 4 : 2}
         theme={editor.theme === "light" ? "textmate" : "monokai"}
         onChange={(code) => setEditor({ ...editor, code })}
