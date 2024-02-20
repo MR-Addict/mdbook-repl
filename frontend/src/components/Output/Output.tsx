@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import { GrClear } from "react-icons/gr";
 import { IconType } from "react-icons/lib";
-import { BsTextWrap } from "react-icons/bs";
-import { useState, useRef, useEffect } from "react";
 
 import style from "./Output.module.css";
 
@@ -32,35 +30,22 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 }
 
 export default function Output() {
-  const [isWrap, setIsWrap] = useState(false);
-  const [isOutputOverflowed, setIsOutputOverflowed] = useState(false);
-
   const { output, setOutput } = useAppContext();
-  const outputRef = useRef<HTMLDivElement>(null);
-  const lines = output.msg.split("\n").filter((line) => line !== "");
-
-  useEffect(() => {
-    if (outputRef.current) setIsOutputOverflowed(outputRef.current.scrollWidth > outputRef.current.clientWidth);
-  }, [output]);
 
   if (output.status === "idle" || output.status === "loading") return null;
 
   return (
-    <div
-      data-wrap={isWrap}
-      data-status={output.status}
-      className={clsx(style.wrapper, "dark:bg-zinc-800 dark:text-gray-300")}
-    >
-      <div ref={outputRef} className="w-full overflow-x-auto">
-        {lines.map((line, index) => (
-          <p key={index}>{"> " + line}</p>
+    <div className={clsx(style.wrapper, "dark:bg-zinc-800")}>
+      <div className={clsx(style.output, "dark:text-gray-300")}>
+        {output.data.length === 0 && <p className={style.line}>&gt; Sorry, ther is no output</p>}
+        {output.data.map((line, index) => (
+          <p key={index} data-color={line.color} className={style.line}>
+            {"> " + line.msg}
+          </p>
         ))}
       </div>
       <div className={style.buttons}>
-        {isOutputOverflowed && (
-          <Button title="wrap output" Icon={BsTextWrap} onClick={() => setIsWrap((prev) => !prev)} />
-        )}
-        <Button title="clear output" Icon={GrClear} onClick={() => setOutput({ status: "idle", msg: "" })} />
+        <Button title="clear output" Icon={GrClear} onClick={() => setOutput({ status: "idle", data: [] })} />
       </div>
     </div>
   );

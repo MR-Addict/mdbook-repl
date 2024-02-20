@@ -1,18 +1,18 @@
 /* wrapper message */
 .wrapper {
-  @apply relative text-gray-800 p-2 bg-stone-100 font-mono empty:hidden;
-}
-
-.wrapper[data-status="error"] {
-  @apply text-red-600;
+  @apply relative p-2 bg-stone-100 font-mono empty:hidden;
 }
 
 /* output */
-.wrapper p {
-  @apply whitespace-nowrap;
+.output {
+  @apply w-full overflow-x-auto text-gray-800;
 }
 
-.wrapper[data-wrap="true"] p {
+.line[data-color="red"] {
+  @apply text-red-600;
+}
+
+.line {
   @apply whitespace-pre-wrap;
 }
 

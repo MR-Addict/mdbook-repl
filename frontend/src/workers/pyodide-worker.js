@@ -1,15 +1,14 @@
 self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js");
 
-let message = "";
 let pyodide = null;
 
-const stdout = (msg) => (message += msg + "\n");
-const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, msg } });
+const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: msg } });
+const stdout = (msg) => postmessage("running", [{ color: "normal", msg }]);
 
 async function waitPyodideReady() {
-  postmessage("loading", "Python is loading, please wait...");
+  postmessage("loading", [{ color: "normal", msg: "Python is loading..." }]);
   pyodide = await loadPyodide({ stdout });
-  postmessage("idle", "Python is ready");
+  postmessage("idle", [{ color: "normal", msg: "Python is ready" }]);
 }
 
 self.onmessage = async (event) => {
@@ -25,18 +24,14 @@ self.onmessage = async (event) => {
     if (!pyodide) await waitPyodideReady();
 
     // run the python code
-    if (!code) postmessage("error", "Python code is empty");
+    if (!code) postmessage("finished", [{ color: "normal", msg: "Python code is empty" }]);
     else {
       try {
-        message = "";
-        postmessage("running", "Python is running, please wait...");
         await pyodide.loadPackagesFromImports(code);
         await pyodide.runPythonAsync(code);
-        postmessage("success", message.trim() || "Sorry, there is no output");
+        postmessage("finished", []);
       } catch (err) {
-        postmessage("error", err.message);
-      } finally {
-        message = "";
+        postmessage("finished", [{ color: "red", msg: err.message }]);
       }
     }
   }

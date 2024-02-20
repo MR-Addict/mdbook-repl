@@ -8,7 +8,7 @@ import useResizeObserver from "@/hooks/useResizeObserver";
 
 const defaultCode = '# This is a default python code\n\nprint("Hello world")';
 
-const defaultOutput: OutputType = { status: "loading", msg: "" };
+const defaultOutput: OutputType = { status: "loading", data: [] };
 
 const defaultEditorOptions: EditorType = {
   lang: "python",
@@ -79,8 +79,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   useEffect(() => {
     const onmessage = (event: MessageEvent) => {
       const result = Output.safeParse(event.data.output);
-      if (!result.success) setOutput({ status: "error", msg: result.error.message });
-      else setOutput(result.data);
+      if (!result.success) setOutput({ status: "finished", data: [{ color: "red", msg: result.error.message }] });
+      else setOutput((prev) => ({ status: result.data.status, data: [...prev.data, ...result.data.data] }));
     };
     workers.forEach((w) => (w.worker.onmessage = onmessage));
   }, []);

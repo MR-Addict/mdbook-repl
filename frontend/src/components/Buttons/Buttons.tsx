@@ -30,7 +30,7 @@ function Button({ Icon, onClick, disabled, title }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, output, workers } = useAppContext();
+  const { editor, setEditor, output, setOutput, workers } = useAppContext();
 
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
   const handleCopy = () => {
@@ -42,7 +42,10 @@ export default function Buttons() {
   // post message to worker
   const handlePlay = () => {
     const worker = workers.find((w) => w.lang === editor.lang)?.worker;
-    if (worker) worker.postMessage({ lang: editor.lang, code: editor.code });
+    if (worker) {
+      setOutput({ status: "idle", data: [] });
+      worker.postMessage({ lang: editor.lang, code: editor.code });
+    }
   };
 
   return (
