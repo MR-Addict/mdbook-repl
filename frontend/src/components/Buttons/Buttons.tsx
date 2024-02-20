@@ -43,7 +43,7 @@ export default function Buttons() {
   const handlePlay = () => {
     const worker = workers.find((w) => w.lang === editor.lang)?.worker;
     if (worker) {
-      setOutput({ status: "idle", data: [] });
+      setOutput({ status: "running", data: [] });
       worker.postMessage({ lang: editor.lang, code: editor.code });
     }
   };

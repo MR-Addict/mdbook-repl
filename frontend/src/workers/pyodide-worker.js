@@ -26,10 +26,9 @@ self.onmessage = async (event) => {
   if (!pyodide) await waitPyodideReady();
 
   // run the python code
-  if (!code) postmessage("finished", [{ color: "normal", msg: "Python code is empty" }]);
+  if (!code) postmessage("finished", [{ color: "red", msg: "Python code is empty" }]);
   else {
     try {
-      postmessage("running", []);
       await pyodide.loadPackagesFromImports(code);
       await pyodide.runPythonAsync(code + "\nprint('FLUSHHH')"); // FLUSHHH is for flushing the stdout
       postmessage("finished", []);
