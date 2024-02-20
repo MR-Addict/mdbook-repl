@@ -80,7 +80,17 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     const onmessage = (event: MessageEvent) => {
       const result = Output.safeParse(event.data.output);
       if (!result.success) setOutput({ status: "finished", data: [{ color: "red", msg: result.error.message }] });
-      else setOutput((prev) => ({ status: result.data.status, data: [...prev.data, ...result.data.data] }));
+      else {
+        setOutput((prev) => {
+          const data = result.data.data;
+          const last = data.at(-1);
+          if (last) {
+            if (last.msg === "FLUSHHH") data.pop();
+            else if (last.msg.includes("FLUSHHH")) last.msg = last.msg.replace("FLUSHHH", "");
+          }
+          return { status: result.data.status, data: [...prev.data, ...data] };
+        });
+      }
     };
     workers.forEach((w) => (w.worker.onmessage = onmessage));
   }, []);
