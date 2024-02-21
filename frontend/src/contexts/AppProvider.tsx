@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
-import { MessageType } from "@/types/message";
 import { Output, OutputType, OutputsType } from "@/types/output";
 import { Editor, EditorType, Languages, LanguagesType } from "@/types/editor";
 
@@ -72,6 +71,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     setOutputs((prev) => ({ ...prev, [lang]: { status: output.status, data: [...prev[lang].data, ...output.data] } }));
   }
 
+  function postmessage() {
+    const message = { id, editor, output: outputs[editor.lang], dimensions };
+    window.parent.postMessage({ repl: message }, "*");
+  }
+
   // listen theme change
   useEffect(() => {
     document.body.classList.toggle("dark", editor.theme === "dark");
@@ -91,28 +95,32 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       setOutput(parsedLang.data, parsedOutput.data);
     };
     setWorker(newWorker);
-
-    // update default code
-    setEditor((prev) => ({ ...prev, code: defaultCodes[lang], defaultCode: defaultCodes[lang] }));
   }, [editor.lang]);
 
   // post message to parent window
   useEffect(() => {
-    const output = outputs[editor.lang];
-    const message: MessageType = { id, editor, output, dimensions };
-    window.parent.postMessage({ repl: message }, "*");
-  }, [dimensions, outputs, editor]);
+    const timeout = setTimeout(() => {
+      if (id) postmessage();
+    }, 10);
+
+    return () => clearTimeout(timeout);
+  }, [id, dimensions.height]);
 
   // listen for messages from parent window
   useEffect(() => {
     const onmessage = (event: MessageEvent) => {
       if (event.source === window || !event.data.repl) return;
-      if (typeof event.data.repl.id === "string") setId(event.data.repl.id);
+      if (typeof event.data.repl.id !== "string") return;
 
       const parsedEditor = Editor.safeParse(Object.assign(editor, event.data.repl.editor));
-      if (parsedEditor.success) setEditor({ ...parsedEditor.data });
+      if (!parsedEditor.success) return;
+
+      setId(event.data.repl.id);
+      setEditor({ ...parsedEditor.data });
     };
+
     window.addEventListener("message", onmessage);
+    postmessage();
     return () => window.removeEventListener("message", onmessage);
   }, []);
 

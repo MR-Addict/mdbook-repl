@@ -9,31 +9,29 @@
     const readonly = replElement.getAttribute("data-readonly") === "true";
     let theme = mapTheme(localStorage.getItem("mdbook-theme"));
 
-    const message = { id, editor: { theme, lang, code, defaultCode: code, readonly } };
-    const postmessage = () => iframeElement.contentWindow.postMessage({ repl: message }, "*");
+    const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
 
     function mapTheme(bookTheme) {
-      if (bookTheme === "coal" || bookTheme === "navy" || bookTheme === "ayu") return "dark";
-      else return "light";
+      return bookTheme === "light" || bookTheme === "rust" ? "light" : "dark";
     }
 
     window.addEventListener("message", (event) => {
-      if (event.source === window || !event.data.repl) return;
-      if (
-        event.data.repl.id !== id ||
-        event.data.repl.editor.theme !== theme ||
-        event.data.repl.editor.lang !== lang ||
-        event.data.repl.editor.readonly !== readonly ||
-        event.data.repl.editor.defaultCode !== code
-      )
-        postmessage();
-      else {
-        // update the iframe height
-        replElement.style.height = event.data.repl.dimensions.height + "px";
-        // show the iframe and hide the pre element
-        iframeElement.classList.remove("hide");
-        replElement.nextElementSibling.style.display = "none";
+      const repl = event.data.repl;
+      if (event.source === window || !repl) return;
+
+      // if the id is empty, then it's the first time the iframe is loaded
+      if (repl.id === "") {
+        postmessage({ id, editor: { theme, lang, code, readonly, defaultCode: code } });
+        return;
       }
+
+      if (repl.id !== id) return;
+
+      // update the iframe height
+      replElement.style.height = repl.dimensions.height + "px";
+      // show the iframe and hide the pre element
+      iframeElement.classList.remove("hide");
+      replElement.nextElementSibling.style.display = "none";
     });
 
     // listen to theme change

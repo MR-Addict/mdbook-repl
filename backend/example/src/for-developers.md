@@ -48,7 +48,7 @@ Here is an example of how to use the **mdbook-repl** in your own project:
     width: 100%;
   }
 </style>
-<iframe src="https://mr-addict.github.io/mdbook-repl/embed/" width="100%" allow="clipboard-write"></iframe>
+<iframe src="http://localhost:4173/" width="100%" allow="clipboard-write"></iframe>
 <script>
   const id = "ac2f5a2";
   const lang = "python";
@@ -57,23 +57,23 @@ Here is an example of how to use the **mdbook-repl** in your own project:
   const code = "# Python\n\nprint('Hello world')";
 
   const iframe = document.querySelector("iframe");
-  const message = { id, editor: { theme, language: lang, code, readonly, defaultCode: code } };
-  const postmessage = (msg) => iframe.contentWindow.postMessage({ repl: message }, "*");
+
+  const postmessage = (msg) => iframe.contentWindow.postMessage({ repl: msg }, "*");
 
   window.addEventListener("message", (event) => {
-    if (event.source === window || !event.data.repl) return;
-
     const replData = event.data.repl;
+    if (event.source === window || !replData) return;
 
-    if (
-      replData.id !== id ||
-      replData.editor.theme !== theme ||
-      replData.editor.lang !== lang ||
-      replData.editor.readonly !== readonly ||
-      replData.editor.defaultCode !== code
-    )
-      postmessage();
-    else iframe.style.height = replData.dimensions.height + "px";
+    // if the id is empty, then it's the first time the iframe is loaded
+    if (replData.id === "") {
+      postmessage({ id, editor: { theme, lang, code, readonly, defaultCode: code } });
+      return;
+    }
+
+    if (replData.id !== id) return;
+
+    // update the iframe height
+    iframe.style.height = replData.dimensions.height + "px";
   });
 </script>
 ```

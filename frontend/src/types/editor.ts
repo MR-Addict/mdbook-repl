@@ -5,8 +5,8 @@ const Languages = z.union([z.literal("python"), z.literal("typescript"), z.liter
 const Editor = z.object({
   lang: Languages,
   code: z.string(),
-  theme: z.union([z.literal("light"), z.literal("dark")]),
   defaultCode: z.string(),
+  theme: z.union([z.literal("light"), z.literal("dark")]),
   readonly: z.boolean()
 });
 

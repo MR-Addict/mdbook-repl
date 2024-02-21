@@ -7,7 +7,7 @@ self.console.log = (...msgs) => postmessage("running", [{ color: "normal", msg: 
 
 async function waitBabelReady() {
   Babel.transform("", { filename: "typescript.ts", presets: ["typescript"] });
-  postmessage("idle", [{ color: "normal", msg: "TypeScript is ready" }]);
+  postmessage("idle", []);
 }
 
 self.onmessage = async (event) => {
