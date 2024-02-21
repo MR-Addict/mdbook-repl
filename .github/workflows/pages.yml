@@ -45,7 +45,8 @@ jobs:
       - name: Build REPL
         run: |
           cd frontend
-          npm install && npm run build
+          npm install
+          BASE_URL=./ npm run build
 
       - name: Build book
         run: |
