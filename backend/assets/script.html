@@ -7,7 +7,7 @@
     const lang = replElement.getAttribute("data-lang");
     const code = replElement.nextElementSibling.innerText.trim();
     const readonly = replElement.getAttribute("data-readonly") === "true";
-    let theme = mapTheme(localStorage.getItem("mdbook-theme"));
+    let theme = mapTheme(localStorage.getItem("mdbook-theme") || "light");
 
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
 
@@ -38,7 +38,7 @@
     document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
       btn.addEventListener("click", (event) => {
         theme = mapTheme(event.target.id);
-        postmessage({ editor: { theme } });
+        postmessage({ id, editor: { theme } });
       });
     });
   });
