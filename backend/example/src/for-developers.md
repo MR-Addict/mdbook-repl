@@ -1,12 +1,10 @@
 # For Developers
 
-Actually, you can use repl in your own project other than **mdbook**. What **mdbook-repl** does is to preprocess your markdown python code blocks and replace them with some js and css.
+Actually, you can use repl in your web own project other than **mdbook**. What **mdbook-repl** does is to preprocess your markdown code blocks and replace them with some js and css.
 
 The core of **mdbook-repl** is the iframe. The iframe is used to display the output of the code. The js and css are used to communicate with the iframe.
 
-The iframe url is `https://mr-addict.github.io/mdbook-repl/embed`.
-
-You can use the same technique in your own project.
+The iframe url is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy the iframe in your own server. You can find the source code of the iframe in the [github repository](https://github.com/MR-Addict/mdbook-repl/tree/gh-pages/embed).
 
 ## API
 
@@ -28,20 +26,20 @@ When the iframe is loaded, it will send a message to the parent window. The mess
       "defaultCode": "# This is a default python code\n\nprint('Hello world')"
     },
     "output": {
-      "msg": "",
-      "status": "idle"
+      "data": [],
+      "status": "loading"
     }
   }
 }
 ```
 
-What you should fist do is some basic information to the iframe. You should send current editor **id** and **editor** information to the iframe. The **id** is used to identify the editor for you if you have more that one iframes in you page. At first id would be empty, when you set it, it will send with new id when new information updated. The **editor** information is used to initialize the editor.
+What you should do fist is to send some basic information to the iframe including **id** and **editor** data. The **id** is used to identify the editor if you have more that one iframes in you page. The id is empty at first. When new information updated, id will be sent with it. The **editor** information is used to initialize the editor.
 
-The **dimensions** is used to set the width and height of the iframe. You can use the **output** information to display the output of the code.
+The **dimensions** is used to set the width and height of the iframe. The **output** data is used to display the output of the code. The **status** can be **idle**,**loading**, **running** or **finished**. The **data** is an array of objects. Each object has a **color** and **msg**. The **color** is used to set the color of the message which can be **normal** or **red**. The **msg** is used to display the message.
 
 ## Example
 
-Here is an example of how to use the **mdbook-repl** in your own project.
+Here is an example of how to use the **mdbook-repl** in your own project:
 
 ```html
 <style>
@@ -50,7 +48,7 @@ Here is an example of how to use the **mdbook-repl** in your own project.
     width: 100%;
   }
 </style>
-<iframe src="http://localhost:4173" width="100%" allow="clipboard-write"></iframe>
+<iframe src="https://mr-addict.github.io/mdbook-repl/embed/" width="100%" allow="clipboard-write"></iframe>
 <script>
   const id = "ac2f5a2";
   const lang = "python";
@@ -59,23 +57,23 @@ Here is an example of how to use the **mdbook-repl** in your own project.
   const code = "# Python\n\nprint('Hello world')";
 
   const iframe = document.querySelector("iframe");
-  const postmessage = (msg) => iframe.contentWindow.postMessage({ repl: msg }, "*");
+  const message = { id, editor: { theme, language: lang, code, readonly, defaultCode: code } };
+  const postmessage = (msg) => iframe.contentWindow.postMessage({ repl: message }, "*");
 
   window.addEventListener("message", (event) => {
     if (event.source === window || !event.data.repl) return;
 
     const replData = event.data.repl;
 
-    // if id is empty, it means the iframe is just loaded
-    if (replData.id === "") postmessage({ id, editor: { theme, language: lang, code, readonly } });
-    // update the iframe height when new dimensions updated
-    else if (replData.id === id) {
-      if (replData.editor.theme !== theme) postmessage({ editor: { theme } });
-      else if (replData.editor.lang !== lang) postmessage({ editor: { lang } });
-      else if (replData.editor.readonly !== readonly) postmessage({ editor: { readonly } });
-      else if (replData.editor.defaultCode !== code) postmessage({ editor: { defaultCode: code } });
-      else iframe.style.height = replData.dimensions.height + "px";
-    }
+    if (
+      replData.id !== id ||
+      replData.editor.theme !== theme ||
+      replData.editor.lang !== lang ||
+      replData.editor.readonly !== readonly ||
+      replData.editor.defaultCode !== code
+    )
+      postmessage();
+    else iframe.style.height = replData.dimensions.height + "px";
   });
 </script>
 ```

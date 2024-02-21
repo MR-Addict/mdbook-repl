@@ -1,6 +1,9 @@
+<!-- Custom REPL Style -->
 <style>
   .repl {
     margin-block: 2rem;
+    position: relative;
+    isolation: isolate;
   }
   .repl iframe {
     width: 100%;
@@ -8,8 +11,11 @@
     border: none;
   }
   .repl iframe.hide {
+    top: 0;
+    left: 0;
     opacity: 0;
     position: absolute;
     pointer-events: none;
+    z-index: -1;
   }
 </style>

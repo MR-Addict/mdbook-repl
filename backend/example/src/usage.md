@@ -1,18 +1,20 @@
 # Usage
 
+This preprocessor is designed to be used with [mdbook](https://rust-lang.github.io/mdBook). If you want to use this repl in your own web project other thatn mdbook, you can have a look at [For Developers](for-developers.md) section.
+
 ## Installation
 
 There two ways to install this preprocessor.
 
-You can install with **cargo** if you have [rust](https://www.rust-lang.org) installed:
+You can install it with **cargo** if you have [rust](https://www.rust-lang.org) installed:
 
 ```sh
 cargo install mdbook-repl
 ```
 
-Or you can download the **binary** from [release page](https://github.com/MR-Addict/mdbook-repl/releases). Then you can put the binary in your **PATH**.
+Or you can download the pre built **binary** from [github release page](https://github.com/MR-Addict/mdbook-repl/releases). Then you should put the binary in your machine's **PATH**.
 
-You can check if the installation is successful by running:
+You can check your installation by running:
 
 ```sh
 mdbook-repl --version
@@ -20,43 +22,48 @@ mdbook-repl --version
 
 ## Configuration
 
-After you installed the preprocessor, you can use it in your **mdbook** project. You need to add the following code to your **book.toml**, so that **mdbook** can use this preprocessor to preprocess your markdown files.
+After you installed the preprocessor, you can use it in your **mdbook** project. Add the following code to your **book.toml**:
 
 ```toml
 [preprocessor.repl]
+# iframe url
+src = "https://mr-addict.github.io/mdbook-repl/embed/"
+
+# enable python repl and lazy loading
 python.enable = true
 python.loading = "lazy"
 
+# enable typescript repl and lazy loading
 typescript.enable = true
 typescript.loading = "lazy"
 
+# enable javascript repl and lazy loading
 javascript.enable = true
 javascript.loading = "lazy"
-
 ```
 
-Every language is disabled by default which means your book will not be processed by this preprocessor. You can enable the language you want to use by setting the **enable** to **true**.
+The **src** is the url of the repl iframe, the default value is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy your own repl server for better performance. You can have a look at [For Developers](for-developers.md) section for more information.
 
-You can also specify the **loading** for the language. The **loading** can be **eager** or **lazy**. If you set the **loading** to **eager**, the codeblock will be rendered when the page is loaded. If you set the **loading** to **lazy**, the codeblock will be rendered when the codeblock is in the view. The default value is **lazy**.
+Every language is **disabled** by default for page loading performance. The repl takes some time and resources to render the codeblock, especially for python repl. You can enable the language by setting the **enable** to **true**.
 
-After that, all your markdown files that contain python codeblock will be processed by this preprocessor. It's just like magic.
+You can also specify the **loading** for the language. which is also considered for page loading performance. It can be **eager** or **lazy**, default value is **lazy**.
 
-For example, you can write a python codeblock in your markdown file:
+For example, if you have a javascript codeblock in your markdown file and you enable it in the **book.toml**:
 
 ````markdown
-```python,norepl
-# Python codeblock
+```javascript,norepl
+// javascript codeblock
 
-print("Hello, world!")
+console.log("Hello, world!");
 ```
 ````
 
-After you build your **mdbook**, the codeblock will be rendered by preprocessor.
+It will be rendered as real time codeblock in your book.
 
-```python
-# Python codeblock
+```javascript
+// javascript codeblock
 
-print("Hello, world!")
+console.log("Hello, world!");
 ```
 
 ## Extensions
@@ -73,30 +80,38 @@ Here is the full list of extensions:
 
 ## Options
 
-You can also specific some options for the codeblock. For example, you can specify the **readonly** for the codeblock, so that the codeblock will not be eidtable.
+You can also specific some options for the each codeblock. For example, you can specify the **readonly** for the codeblock:
 
 <pre><code>
-&#96;&#96;&#96;python,readonly
-print("This is a readonly python codeblock")
+&#96;&#96;&#96;javascript,readonly
+// javascript codeblock
+
+console.log("Hello, world!");
 &#96;&#96;&#96;
 </code></pre>
 
-You can test below codeblock to see the result.
+And the codeblock will not be eidtable:
 
-```python,readonly
-print("This is a readonly python codeblock")
+```javascript,readonly
+// javascript codeblock
+
+console.log("Hello, world!");
 ```
 
-And if you put **norepl** in the codeblock, the codeblock will not be rendered by this preprocessor.
+If you put **norepl** option in the codeblock:
 
 <pre><code>
-&#96;&#96;&#96;python,norepl
-print("This is codeblock will not be rendered")
+&#96;&#96;&#96;javascript,norepl
+// javascript codeblock
+
+console.log("Hello, world!");
 &#96;&#96;&#96;
 </code></pre>
 
-You can test below codeblock to see the result.
+And it will not be rendered by this preprocessor:
 
-```python,norepl
-print("This is codeblock will not be rendered")
+```javascript,norepl
+// javascript codeblock
+
+console.log("Hello, world!");
 ```

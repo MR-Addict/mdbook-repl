@@ -70,6 +70,11 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
             // get the config options
             let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), false);
             let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
+            let src = cfg::get_config_string(
+                config,
+                "src",
+                "https://mr-addict.github.io/mdbook-repl/embed/",
+            );
 
             // if norepl is in the options, return the code block as is
             if !enable || options.contains(&"norepl".to_string()) {
@@ -78,6 +83,7 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
 
             get_asset("repl.html")
                 .replace("{id}", &id)
+                .replace("{src}", &src)
                 .replace("{lang}", lang)
                 .replace("{loading}", &loading)
                 .replace("{codeblock}", &codeblock)

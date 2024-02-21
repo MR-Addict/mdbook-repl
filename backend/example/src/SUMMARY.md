@@ -9,10 +9,13 @@
 
 # Languages
 
-- [Python](python/intro.md)
+- [Python]()
+  - [Intro](python/intro.md)
   - [Examples](python/examples.md)
   - [Packages](python/packages.md)
-- [Typescript](typescript/intro.md)
+- [Typescript]()
+  - [Intro](typescript/intro.md)
   - [Examples](typescript/examples.md)
-- [Javascript](javascript/intro.md)
+- [Javascript]()
+  - [Intro](javascript/intro.md)
   - [Examples](javascript/examples.md)

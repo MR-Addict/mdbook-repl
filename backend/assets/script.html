@@ -9,7 +9,8 @@
     const readonly = replElement.getAttribute("data-readonly") === "true";
     let theme = mapTheme(localStorage.getItem("mdbook-theme"));
 
-    const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
+    const message = { id, editor: { theme, lang, code, defaultCode: code, readonly } };
+    const postmessage = () => iframeElement.contentWindow.postMessage({ repl: message }, "*");
 
     function mapTheme(bookTheme) {
       if (bookTheme === "coal" || bookTheme === "navy" || bookTheme === "ayu") return "dark";
@@ -18,23 +19,20 @@
 
     window.addEventListener("message", (event) => {
       if (event.source === window || !event.data.repl) return;
-
-      const repl = event.data.repl;
-      // if id is empty means iframe is first loaded, so we send configurations to it
-      if (repl.id === "") postmessage({ id, editor: { theme, lang, code, defaultCode: code, readonly } });
-      // if id is not empty and it's the same as the current repl, we can receive the data
-      else if (repl.id === id) {
-        if (repl.editor.theme !== theme) postmessage({ editor: { theme } });
-        else if (repl.editor.lang !== lang) postmessage({ editor: { lang } });
-        else if (repl.editor.readonly !== readonly) postmessage({ editor: { readonly } });
-        else if (repl.editor.defaultCode !== code) postmessage({ editor: { defaultCode: code } });
-        else {
-          // update the iframe height
-          replElement.style.height = repl.dimensions.height + "px";
-          // show the iframe and hide the pre element
-          iframeElement.classList.remove("hide");
-          replElement.nextElementSibling.style.display = "none";
-        }
+      if (
+        event.data.repl.id !== id ||
+        event.data.repl.editor.theme !== theme ||
+        event.data.repl.editor.lang !== lang ||
+        event.data.repl.editor.readonly !== readonly ||
+        event.data.repl.editor.defaultCode !== code
+      )
+        postmessage();
+      else {
+        // update the iframe height
+        replElement.style.height = event.data.repl.dimensions.height + "px";
+        // show the iframe and hide the pre element
+        iframeElement.classList.remove("hide");
+        replElement.nextElementSibling.style.display = "none";
       }
     });
 

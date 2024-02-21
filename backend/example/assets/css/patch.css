@@ -12,3 +12,8 @@ table tr :is(th, td) {
     padding-block: 10px;
   }
 }
+
+/* patch for disabled link */
+.chapter-item div {
+  color: var(--sidebar-fg);
+}
