@@ -1,6 +1,6 @@
 # Usage
 
-This preprocessor is designed to be used with [mdbook](https://rust-lang.github.io/mdBook). If you want to use this repl in your own web project other thatn mdbook, you can have a look at [For Developers](for-developers.md) section.
+This preprocessor is designed to be used with [mdbook](https://rust-lang.github.io/mdBook). If you want to use this repl in your own web project other than mdbook, you can have a look at [For Developers](for-developers.md) section.
 
 ## Installation
 
@@ -82,13 +82,11 @@ Here is the full list of extensions:
 
 You can also specific some options for the each codeblock. For example, you can specify the **readonly** for the codeblock:
 
-<pre><code>
-&#96;&#96;&#96;javascript,readonly
+<pre><code class="language-markdown">&#96;&#96;&#96;javascript,readonly
 // javascript codeblock
 
 console.log("Hello, world!");
-&#96;&#96;&#96;
-</code></pre>
+&#96;&#96;&#96;</code></pre>
 
 And the codeblock will not be eidtable:
 
@@ -100,13 +98,11 @@ console.log("Hello, world!");
 
 If you put **norepl** option in the codeblock:
 
-<pre><code>
-&#96;&#96;&#96;javascript,norepl
+<pre><code class="language-markdown">&#96;&#96;&#96;javascript,norepl
 // javascript codeblock
 
 console.log("Hello, world!");
-&#96;&#96;&#96;
-</code></pre>
+&#96;&#96;&#96;</code></pre>
 
 And it will not be rendered by this preprocessor:
 

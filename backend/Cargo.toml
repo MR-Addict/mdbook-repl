@@ -4,12 +4,11 @@ version = "0.2.3"
 edition = "2021"
 license = "MIT"
 readme = "../README.md"
-exclude = ["example/*"]
 keywords = ["mdbook", "repl", "plugin", "preprocessor"]
 authors = ["MR-Addict <MR-Addict@qq.com>"]
 repository = "https://github.com/MR-Addict/mdbook-repl"
 documentation = "https://mr-addict.github.io/mdbook-repl"
-description = "A rust based mdbook preprocessor plugin that allows you to live code in your markdown book."
+description = "A rust based mdbook preprocessor that allows you to execute code in your mdbook without any server. Python, Typescript, Javascript etc."
 
 [dependencies]
 clap = "4.5.0"

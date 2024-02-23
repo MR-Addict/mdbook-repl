@@ -47,7 +47,7 @@ heading-split-level = 3
 copy-js = true
 
 [preprocessor.repl]
-command = "target/release/mdbook-repl"
+command = "backend/target/release/mdbook-repl"
 
 # iframe url
 src = "https://mr-addict.github.io/mdbook-repl/embed/"

@@ -48,13 +48,12 @@ jobs:
 
       - name: Build book
         run: |
-          cd backend
-          chmod u+x example/assets/bin/* && cp example/assets/bin/* /usr/local/bin
-          cargo build --release && mdbook build example
+          cargo build --release --manifest-path backend/Cargo.toml
+          chmod u+x docs/assets/bin/* && cp docs/assets/bin/* /usr/local/bin && mdbook build docs
 
       - name: Merge build assets
         run: |
-          mv backend/example/book build
+          mv docs/book build
           mv frontend/dist build/embed
 
       - name: Deploy to github pages
