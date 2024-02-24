@@ -2,7 +2,7 @@
 
 # Basics
 
-- [Intro](intro.md)
+- [Intro](index.md)
 - [Usage](usage.md)
 - [Limitations](limitations.md)
 - [For Developers](for-developers.md)
