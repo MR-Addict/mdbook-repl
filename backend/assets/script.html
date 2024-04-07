@@ -5,7 +5,7 @@
 
     const id = replElement.getAttribute("data-id");
     const lang = replElement.getAttribute("data-lang");
-    const code = replElement.nextElementSibling.innerText.trim();
+    const code = getCode(replElement.nextElementSibling);
     const readonly = replElement.getAttribute("data-readonly") === "true";
     let theme = mapTheme(localStorage.getItem("mdbook-theme") || "light");
 
@@ -13,6 +13,13 @@
 
     function mapTheme(bookTheme) {
       return bookTheme === "light" || bookTheme === "rust" ? "light" : "dark";
+    }
+
+    function getCode(element) {
+      // remove all the boring elements
+      const code = element.cloneNode(true);
+      code.querySelectorAll(".boring").forEach((boring) => boring.remove());
+      return code.innerText.trim();
     }
 
     window.addEventListener("message", (event) => {
