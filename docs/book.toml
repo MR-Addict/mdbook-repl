@@ -49,17 +49,17 @@ copy-js = true
 [preprocessor.repl]
 command = "backend/target/release/mdbook-repl"
 
-# iframe url
+# iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
 src = "https://mr-addict.github.io/mdbook-repl/embed/"
 
-# enable python repl and lazy loading
+# python is disabled by default and loading is lazy
 python.enable = true
 python.loading = "lazy"
 
-# enable typescript repl and lazy loading
+# typescript is disabled by default and loading is lazy
 typescript.enable = true
 typescript.loading = "lazy"
 
-# enable javascript repl and lazy loading
+# javascript is disabled by default and loading is lazy
 javascript.enable = true
 javascript.loading = "lazy"

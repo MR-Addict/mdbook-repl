@@ -1,6 +1,6 @@
 # Usage
 
-This preprocessor is designed to be used with [mdbook](https://rust-lang.github.io/mdBook). If you want to use this repl in your own web project other than mdbook, you can have a look at [For Developers](for-developers.md) section.
+This preprocessor is designed to be used with [mdbook](https://rust-lang.github.io/mdBook). If you want to use this repl in your own web project, you can have a look at [For Developers](for-developers.md) section.
 
 ## Installation
 
@@ -12,7 +12,7 @@ You can install it with **cargo** if you have [rust](https://www.rust-lang.org) 
 cargo install mdbook-repl
 ```
 
-Or you can download the pre built **binary** from [github release page](https://github.com/MR-Addict/mdbook-repl/releases). Then you should put the binary in your machine's **PATH**.
+Or you can download the pre built **binary** from [github release page](https://github.com/MR-Addict/mdbook-repl/releases). You should put the binary in your machine's **PATH** after installation.
 
 You can check your installation by running:
 
@@ -22,45 +22,72 @@ mdbook-repl --version
 
 ## Configuration
 
-After you installed the preprocessor, you can use it in your **mdbook** project. Add the following code to your **book.toml**:
+After installation, you need to add some configurations to your **book.toml** file. Below is an example of the full configuration options for this preprocessor:
 
 ```toml
 [preprocessor.repl]
-# iframe url
+# iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
 src = "https://mr-addict.github.io/mdbook-repl/embed/"
 
-# enable python repl and lazy loading
+# python is disabled by default and loading is lazy
 python.enable = true
 python.loading = "lazy"
 
-# enable typescript repl and lazy loading
+# typescript is disabled by default and loading is lazy
 typescript.enable = true
 typescript.loading = "lazy"
 
-# enable javascript repl and lazy loading
+# javascript is disabled by default and loading is lazy
 javascript.enable = true
 javascript.loading = "lazy"
 ```
 
-The **src** is the url of the repl iframe, the default value is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy your own repl server for better performance. You can have a look at [For Developers](for-developers.md) section for more information.
+- **src**: The url of the repl iframe, the default value is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy your own repl server for better performance, see [For Developers](for-developers.md) section.
+- **language.enable**: Enable the language for the repl, default value is **false**.
+- **language.loading**: The loading of the language, can be **eager** or **lazy**, default value is **lazy**.
 
-Every language is **disabled** by default for page loading performance. The repl takes some time and resources to render the codeblock, especially for python repl. You can enable the language by setting the **enable** to **true**.
+For example if you only care about python codeblock, you can only enable python and disable the others:
 
-You can also specify the **loading** for the language. which is also considered for page loading performance. It can be **eager** or **lazy**, default value is **lazy**.
+```toml
+[preprocessor.repl]
+python.enable = true
+```
 
-For example, if you have a javascript codeblock in your markdown file and you enable it in the **book.toml**:
+## Options
 
-````markdown
-```javascript,norepl
+You can also specific some options for the each codeblock.
+
+**readonly**
+
+readonly option will make the codeblock not editable. You can use this option if you want to show some code examples that should not be changed.
+
+<pre><code class="language-markdown">&#96;&#96;&#96;javascript,readonly
+// javascript codeblock
+
+console.log("Hello, world!");
+&#96;&#96;&#96;</code></pre>
+
+And the codeblock will not be eidtable:
+
+```javascript,readonly
 // javascript codeblock
 
 console.log("Hello, world!");
 ```
-````
 
-It will be rendered as real time codeblock in your book.
+**norepl**
 
-```javascript
+norepl option will make the codeblock not rendered by the preprocessor. You can use this option if you want to show some code examples that should not be executed.
+
+<pre><code class="language-markdown">&#96;&#96;&#96;javascript,norepl
+// javascript codeblock
+
+console.log("Hello, world!");
+&#96;&#96;&#96;</code></pre>
+
+And it will not be rendered by this preprocessor:
+
+```javascript,norepl
 // javascript codeblock
 
 console.log("Hello, world!");
@@ -78,36 +105,18 @@ Here is the full list of extensions:
 | TypeScript | typescript, ts |
 | JavaScript | javascript, js |
 
-## Options
+## Performance
 
-You can also specific some options for the each codeblock. For example, you can specify the **readonly** for the codeblock:
+There is no doubt that the execution of the code is really fast compared with backend server playgrounds. However, the bottleneck is the loading time of the codeblock. The loading time is depending on language.
 
-<pre><code class="language-markdown">&#96;&#96;&#96;javascript,readonly
-// javascript codeblock
+The smallest one is **javascrpt**, because javascipt is natively supported by the browser. However others languages like python and typescript need some complied webassembly runtime to be loaded first.
 
-console.log("Hello, world!");
-&#96;&#96;&#96;</code></pre>
+So the loading option is **lazy** and all lanugages are disabled by default. Also, most of the examples in this docs are using **javascript** by default to make the loading time faster.
 
-And the codeblock will not be eidtable:
+Below is the relative size of the extra needed runtime for each language:
 
-```javascript,readonly
-// javascript codeblock
-
-console.log("Hello, world!");
-```
-
-If you put **norepl** option in the codeblock:
-
-<pre><code class="language-markdown">&#96;&#96;&#96;javascript,norepl
-// javascript codeblock
-
-console.log("Hello, world!");
-&#96;&#96;&#96;</code></pre>
-
-And it will not be rendered by this preprocessor:
-
-```javascript,norepl
-// javascript codeblock
-
-console.log("Hello, world!");
-```
+| Language   | Size  |
+| :--------- | :---- |
+| Python     | 5.5MB |
+| TypeScript | 718kb |
+| JavaScript | 0     |

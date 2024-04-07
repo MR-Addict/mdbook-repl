@@ -1,8 +1,8 @@
 # Mdbook REPL
 
-This is a [mdbook](https://rust-lang.github.io/mdBook) real time playground for some programmes which you can directly execute them in the browser without any server. It's fast and easy to use.
+This is a [mdbook](https://rust-lang.github.io/mdBook) real time playground for some programming languages which you can directly execute them in the browser without any server. It's fast and easy to use.
 
-This is mostly inspired by [mdbook rust playground](https://rust-lang.github.io/mdBook/format/mdbook.html#rust-playground), but it's only limited to rust and it's using [https://play.rust-lang.org](https://play.rust-lang.org) as its backend compiler server. So I want to make a playground for multiple languages with mdbook which do not need any backend server to execute the code.
+This is mostly inspired by [mdbook rust playground](https://rust-lang.github.io/mdBook/format/mdbook.html#rust-playground), but it's only limited to rust and it's using [https://play.rust-lang.org](https://play.rust-lang.org) as its backend compiler server. So I want to make a playground for other languages based on webassembly.
 
 Below is an example of a python code block that can be executed directly in the browser:
 

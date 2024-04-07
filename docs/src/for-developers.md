@@ -1,6 +1,6 @@
 # For Developers
 
-Actually, you can use repl in your web own project other than **mdbook**. What **mdbook-repl** does is to preprocess your markdown code blocks and replace them with some js and css.
+Actually, you can use repl in your own web project other than **mdbook**. What **mdbook-repl** does is to preprocess your markdown code blocks and replace them with some js and css.
 
 The core of **mdbook-repl** is the iframe. The iframe is used to display the output of the code. The js and css are used to communicate with the iframe.
 
@@ -35,7 +35,7 @@ When the iframe is loaded, it will send a message to the parent window. The mess
 
 What you should do fist is to send some basic information to the iframe including **id** and **editor** data. The **id** is used to identify the editor if you have more that one iframes in you page. The id is empty at first. When new information updated, id will be sent with it. The **editor** information is used to initialize the editor.
 
-The **dimensions** is used to set the width and height of the iframe. The **output** data is used to display the output of the code. The **status** can be **idle**,**loading**, **running** or **finished**. The **data** is an array of objects. Each object has a **color** and **msg**. The **color** is used to set the color of the message which can be **normal** or **red**. The **msg** is used to display the message.
+The **dimensions** is used to set the width and height of the iframe. The **output** data is used to display the output of the code. The **status** can be **idle**, **loading**, **running** or **finished**. The **data** is an array of objects. Each object has a **color** and **msg**. The **color** is used to set the color of the message which can be **normal** or **red**. The **msg** is used to display the message.
 
 ## Example
 
