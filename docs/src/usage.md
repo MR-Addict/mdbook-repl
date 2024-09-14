@@ -93,7 +93,11 @@ And it will not be rendered by this preprocessor:
 console.log("Hello, world!");
 ```
 
-## Extensions
+## Shortcuts
+
+You can use **CTRL** + **R** to run the codeblock. This is useful when you want to run the codeblock without clicking the run button.
+
+## Language Extensions
 
 This preprocessor only recongnizes specific extensions for sepecific language. For example, you can only use **python** or **py** codeblock for python code.
 
