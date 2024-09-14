@@ -7,7 +7,7 @@
     const lang = replElement.getAttribute("data-lang");
     const code = getCode(replElement.nextElementSibling);
     const readonly = replElement.getAttribute("data-readonly") === "true";
-    let theme = mapTheme(localStorage.getItem("mdbook-theme") || "light");
+    let theme = mapTheme(localStorage.getItem("mdbook-theme") || document.querySelector(".theme.theme-selected")?.id);
 
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
 

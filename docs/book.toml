@@ -15,7 +15,7 @@ use-default-preprocessors = false
 [output.html]
 default-theme = "Light"
 preferred-dark-theme = "Ayu"
-curly-quotes = true
+smart-punctuation = true
 mathjax-support = true
 copy-fonts = true
 no-section-label = false

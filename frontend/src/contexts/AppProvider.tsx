@@ -5,14 +5,10 @@ import { Editor, EditorType, Languages, LanguagesType } from "@/types/editor";
 
 import useResizeObserver from "@/hooks/useResizeObserver";
 
-import pythonWorker from "../workers/python-worker.js?url";
-import typescriptWorker from "../workers/typescript-worker.js?url";
-import javascriptWorker from "../workers/javascript-worker.js?url";
-
 const workers = {
-  python: pythonWorker,
-  typescript: typescriptWorker,
-  javascript: javascriptWorker
+  python: new URL("../workers/python-worker.js", import.meta.url).toString(),
+  typescript: new URL("../workers/typescript-worker.js", import.meta.url).toString(),
+  javascript: new URL("../workers/javascript-worker.js", import.meta.url).toString()
 };
 
 const defaultOutputs: OutputsType = {
@@ -22,9 +18,9 @@ const defaultOutputs: OutputsType = {
 };
 
 const defaultCodes = {
-  python: '# This is a default python code\n\nprint("Hello world")',
-  typescript: '// This is a default typescript code\n\nlet message: string = "Hello, world!";\nconsole.log(message);',
-  javascript: '// This is a default javascript code\n\nlet message = "Hello, world!";\nconsole.log(message);'
+  python: '# This is default python code\n\nprint("Hello world")',
+  typescript: '// This is default typescript code\n\nlet message: string = "Hello, world!";\nconsole.log(message);',
+  javascript: '// This is default javascript code\n\nlet message = "Hello, world!";\nconsole.log(message);'
 };
 
 const defaultEditorOptions: EditorType = {

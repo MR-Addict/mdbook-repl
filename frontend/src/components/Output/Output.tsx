@@ -1,6 +1,9 @@
 import clsx from "clsx";
+import { useState } from "react";
 import { GrClear } from "react-icons/gr";
 import { IconType } from "react-icons/lib";
+import { VscCopy } from "react-icons/vsc";
+import { IoCheckmark } from "react-icons/io5";
 
 import style from "./Output.module.css";
 
@@ -28,9 +31,16 @@ function Button({ Icon, onClick, title }: ButtonProps) {
 }
 
 export default function Output() {
+  const [copied, setCopied] = useState(false);
   const { editor, outputs, setOutputs } = useAppContext();
 
   const output = outputs[editor.lang];
+
+  const handleCopy = () => {
+    setCopied(true);
+    navigator.clipboard.writeText(output.data.map((line) => line.msg).join("\n"));
+    setTimeout(() => setCopied(false), 1000);
+  };
 
   if (
     output.status === "idle" ||
@@ -51,13 +61,18 @@ export default function Output() {
           </p>
         ))}
       </div>
+
       <div className={style.buttons}>
         {output.status === "finished" && (
-          <Button
-            Icon={GrClear}
-            title="clear output"
-            onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
-          />
+          <>
+            <Button
+              Icon={GrClear}
+              title="clear output"
+              onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
+            />
+
+            <Button Icon={copied ? IoCheckmark : VscCopy} title="copy output" onClick={handleCopy} />
+          </>
         )}
       </div>
     </div>
