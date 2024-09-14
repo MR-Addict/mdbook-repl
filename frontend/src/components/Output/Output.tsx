@@ -32,7 +32,7 @@ function Button({ Icon, onClick, title }: ButtonProps) {
 
 export default function Output() {
   const [copied, setCopied] = useState(false);
-  const { editor, outputs, setOutputs } = useAppContext();
+  const { editor, outputs, clearOutput } = useAppContext();
 
   const output = outputs[editor.lang];
 
@@ -65,13 +65,8 @@ export default function Output() {
       <div className={style.buttons}>
         {output.status === "finished" && (
           <>
-            <Button
-              Icon={GrClear}
-              title="clear output"
-              onClick={() => setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }))}
-            />
-
             <Button Icon={copied ? IoCheckmark : VscCopy} title="copy output" onClick={handleCopy} />
+            <Button Icon={GrClear} title="clear output" onClick={clearOutput} />
           </>
         )}
       </div>

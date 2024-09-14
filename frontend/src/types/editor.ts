@@ -1,17 +1,19 @@
 import z from "zod";
 
-const Languages = z.union([z.literal("python"), z.literal("typescript"), z.literal("javascript")]);
+import { languages } from "@/data/app";
+
+const Language = z.enum(languages);
 
 const Editor = z.object({
-  lang: Languages,
+  lang: Language,
   code: z.string(),
   defaultCode: z.string(),
-  theme: z.union([z.literal("light"), z.literal("dark")]),
+  theme: z.enum(["dark", "light"]),
   readonly: z.boolean()
 });
 
 type EditorType = z.infer<typeof Editor>;
-type LanguagesType = z.infer<typeof Languages>;
+type LanguageType = z.infer<typeof Language>;
 
-export { Editor, Languages };
-export type { EditorType, LanguagesType };
+export { Editor, Language };
+export type { EditorType, LanguageType };

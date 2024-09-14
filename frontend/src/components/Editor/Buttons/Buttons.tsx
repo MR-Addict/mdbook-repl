@@ -1,10 +1,9 @@
-import clsx from "clsx";
 import { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { IoCheckmark } from "react-icons/io5";
 import { VscHistory, VscCopy, VscPlay, VscLoading } from "react-icons/vsc";
 
-import style from "./Buttons.module.css";
+import style from "../Editor.module.css";
 import { useAppContext } from "@/contexts/AppProvider";
 
 interface ButtonProps {
@@ -32,37 +31,30 @@ function Button({ Icon, onClick, title, disabled }: ButtonProps) {
 
 export default function Buttons() {
   const [copied, setCopied] = useState(false);
-  const { editor, setEditor, outputs, setOutputs, worker } = useAppContext();
+  const { editor, setEditor, outputs, execuateCode } = useAppContext();
 
   const output = outputs[editor.lang];
 
   const handleReset = () => setEditor({ ...editor, code: editor.defaultCode });
+
   const handleCopy = () => {
     setCopied(true);
     navigator.clipboard.writeText(editor.code);
     setTimeout(() => setCopied(false), 1000);
   };
 
-  // post message to worker
-  const handlePlay = () => {
-    if (worker) {
-      setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "running", data: [] } }));
-      worker.postMessage({ lang: editor.lang, code: editor.code });
-    }
-  };
-
   return (
-    <div className={clsx(style.wrapper, "buttons")}>
+    <div className={style.buttons}>
       {!editor.readonly && editor.code !== editor.defaultCode && (
         <Button title="reset code" Icon={VscHistory} onClick={handleReset} />
       )}
+      <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
       <Button
         title="run code"
-        onClick={handlePlay}
+        onClick={execuateCode}
         disabled={output.status === "loading" || output.status === "running"}
         Icon={output.status === "loading" || output.status === "running" ? VscLoading : VscPlay}
       />
-      <Button title="copy code" Icon={copied ? IoCheckmark : VscCopy} onClick={handleCopy} />
     </div>
   );
 }

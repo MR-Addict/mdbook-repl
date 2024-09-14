@@ -1,10 +1,14 @@
+import clsx from "clsx";
 import AceEditor from "react-ace";
+import { useEffect } from "react";
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";
 
+import style from "./Editor.module.css";
+import Buttons from "./Buttons/Buttons";
 import { useAppContext } from "@/contexts/AppProvider";
 
 const defaultOptions = {
@@ -21,10 +25,26 @@ const defaultOptions = {
 };
 
 export default function Editor() {
-  const { editor, setEditor } = useAppContext();
+  const { outputs, editor, setEditor, execuateCode } = useAppContext();
+
+  // listen ctrl + r
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      console.log(e.view?.window === window);
+
+      if (e.view?.window === window && e.ctrlKey && e.key.toLowerCase() === "r") {
+        e.preventDefault();
+        execuateCode();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editor, outputs]);
 
   return (
-    <div className="bg-stone-100 dark:bg-zinc-800 py-2 px-1 ace-editor">
+    <div className={clsx(style.wrapper, "dark:bg-zinc-800")}>
+      <Buttons />
       <AceEditor
         width="100%"
         name={editor.lang}

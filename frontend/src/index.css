@@ -6,12 +6,11 @@ body {
   @apply overflow-y-hidden;
 }
 
-/* ace editor releated */
-.ace-editor:hover ~ .buttons,
-.buttons:hover {
-  @apply opacity-100;
+main {
+  @apply rounded-md flex flex-col gap-3 dark:bg-zinc-950;
 }
 
+/* ace editor releated */
 .ace_mobile-menu {
   @apply hidden;
 }

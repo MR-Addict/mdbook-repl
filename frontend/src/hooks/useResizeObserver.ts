@@ -10,20 +10,19 @@ function useResizeObserver(selector: string): Dimensions {
 
   useEffect(() => {
     const element = document.querySelector(selector);
-    if (element) {
-      const resizeObserver = new ResizeObserver((entries) => {
-        entries.forEach((entry) => {
-          setDimensions({
-            width: entry.contentRect.width,
-            height: entry.contentRect.height
-          });
+    if (!element) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        setDimensions({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height
         });
       });
+    });
 
-      resizeObserver.observe(element);
-
-      return () => resizeObserver.unobserve(element);
-    }
+    resizeObserver.observe(element);
+    return () => resizeObserver.unobserve(element);
   }, [selector]);
 
   return dimensions;

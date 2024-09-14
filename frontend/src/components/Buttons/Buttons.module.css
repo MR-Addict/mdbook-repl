@@ -1,7 +1,0 @@
-.wrapper {
-  @apply sm:opacity-0 duration-300 absolute right-2 top-1 flex flex-row items-center gap-2;
-}
-
-.wrapper button {
-  @apply text-gray-500 bg-gray-100 p-1.5 border border-zinc-400 rounded-[5px];
-}

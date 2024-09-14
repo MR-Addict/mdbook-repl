@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
-import { Output, OutputType, OutputsType } from "@/types/output";
-import { Editor, EditorType, Languages, LanguagesType } from "@/types/editor";
-
 import useResizeObserver from "@/hooks/useResizeObserver";
+
+import { defaultCodes } from "@/data/app";
+import { Output, OutputsType } from "@/types/output";
+import { Editor, EditorType, Language } from "@/types/editor";
 
 const workers = {
   python: new URL("../workers/python-worker.js", import.meta.url).toString(),
@@ -15,12 +16,6 @@ const defaultOutputs: OutputsType = {
   python: { status: "loading", data: [] },
   typescript: { status: "loading", data: [] },
   javascript: { status: "loading", data: [] }
-};
-
-const defaultCodes = {
-  python: '# This is default python code\n\nprint("Hello world")',
-  typescript: '// This is default typescript code\n\nlet message: string = "Hello, world!";\nconsole.log(message);',
-  javascript: '// This is default javascript code\n\nlet message = "Hello, world!";\nconsole.log(message);'
 };
 
 const defaultEditorOptions: EditorType = {
@@ -36,9 +31,9 @@ interface AppContextProps {
   setEditor: Dispatch<SetStateAction<EditorType>>;
 
   outputs: OutputsType;
-  setOutputs: Dispatch<SetStateAction<OutputsType>>;
 
-  worker: Worker | null;
+  execuateCode: () => void;
+  clearOutput: () => void;
 }
 
 const AppContext = createContext<AppContextProps>({
@@ -46,9 +41,9 @@ const AppContext = createContext<AppContextProps>({
   setEditor: () => {},
 
   outputs: defaultOutputs,
-  setOutputs: () => {},
 
-  worker: null
+  execuateCode: () => {},
+  clearOutput: () => {}
 });
 
 interface AppContextProviderProps {
@@ -63,13 +58,22 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [outputs, setOutputs] = useState<OutputsType>(defaultOutputs);
   const [editor, setEditor] = useState<EditorType>(defaultEditorOptions);
 
-  function setOutput(lang: LanguagesType, output: OutputType) {
-    setOutputs((prev) => ({ ...prev, [lang]: { status: output.status, data: [...prev[lang].data, ...output.data] } }));
-  }
-
   function postmessage() {
     const message = { id, editor, output: outputs[editor.lang], dimensions };
     window.parent.postMessage({ repl: message }, "*");
+  }
+
+  // post message to worker
+  function execuateCode() {
+    if (!worker) return;
+    if (outputs[editor.lang].status === "loading" || outputs[editor.lang].status === "running") return;
+
+    setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "running", data: [] } }));
+    worker.postMessage({ lang: editor.lang, code: editor.code });
+  }
+
+  function clearOutput() {
+    setOutputs((prev) => ({ ...prev, [editor.lang]: { status: "idle", data: [] } }));
   }
 
   // listen theme change
@@ -86,18 +90,19 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     const newWorker = new Worker(workers[lang], { type: "classic", name: `${lang}-worker` });
     newWorker.onmessage = (event: MessageEvent) => {
       const parsedOutput = Output.safeParse(event.data.output);
-      const parsedLang = Languages.safeParse(event.data.lang);
+      const parsedLang = Language.safeParse(event.data.lang);
       if (!parsedOutput.success || !parsedLang.success) return;
-      setOutput(parsedLang.data, parsedOutput.data);
+      setOutputs((prev) => ({
+        ...prev,
+        [parsedLang.data]: { status: parsedOutput.data.status, data: [...prev[lang].data, ...parsedOutput.data.data] }
+      }));
     };
     setWorker(newWorker);
   }, [editor.lang]);
 
   // post message to parent window
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (id) postmessage();
-    }, 10);
+    const timeout = setTimeout(() => id && postmessage(), 10);
 
     return () => clearTimeout(timeout);
   }, [id, dimensions.height]);
@@ -117,11 +122,14 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
     window.addEventListener("message", onmessage);
     postmessage();
+
     return () => window.removeEventListener("message", onmessage);
   }, []);
 
   return (
-    <AppContext.Provider value={{ editor, setEditor, outputs, setOutputs, worker }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ editor, setEditor, outputs, execuateCode, clearOutput }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 
