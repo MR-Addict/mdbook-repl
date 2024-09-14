@@ -20,9 +20,9 @@ const defaultOutputs: OutputsType = {
 
 const defaultEditorOptions: EditorType = {
   theme: "light",
-  lang: "javascript",
-  code: defaultCodes.javascript,
-  defaultCode: defaultCodes.javascript,
+  lang: "python",
+  code: defaultCodes.python,
+  defaultCode: defaultCodes.python,
   readonly: false
 };
 

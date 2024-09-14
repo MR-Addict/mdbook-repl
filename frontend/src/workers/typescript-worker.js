@@ -1,4 +1,4 @@
-self.importScripts("https://unpkg.com/@babel/standalone@7.23.10/babel.min.js");
+self.importScripts("https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/babel-standalone/7.25.6/babel.min.js");
 
 const postmessage = (status, msg) => self.postMessage({ lang: "typescript", output: { status, data: msg } });
 

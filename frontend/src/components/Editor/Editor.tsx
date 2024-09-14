@@ -30,8 +30,6 @@ export default function Editor() {
   // listen ctrl + r
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      console.log(e.view?.window === window);
-
       if (e.view?.window === window && e.ctrlKey && e.key.toLowerCase() === "r") {
         e.preventDefault();
         execuateCode();
