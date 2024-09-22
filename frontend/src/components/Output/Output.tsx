@@ -56,9 +56,14 @@ export default function Output() {
           <p className={style.line}>&gt; Sorry, there is no output</p>
         )}
         {output.data.map((line, index) => (
-          <p key={index} data-color={line.color} className={style.line}>
-            {"> " + line.msg}
-          </p>
+          <div key={index} data-color={line.color} className={style.line}>
+            <span>&gt;</span>
+            <ul>
+              {line.msg.map((msg, index) => (
+                <li key={index}>{typeof msg === "string" ? msg : JSON.stringify(msg, null, 2)}</li>
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
 

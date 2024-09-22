@@ -13,7 +13,7 @@
 }
 
 .line {
-  @apply whitespace-pre-wrap;
+  @apply whitespace-pre-wrap flex flex-row gap-1;
 }
 
 /* wrap button */

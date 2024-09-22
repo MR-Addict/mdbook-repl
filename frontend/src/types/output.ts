@@ -4,7 +4,7 @@ const Output = z.object({
   status: z.enum(["idle", "loading", "running", "finished"]),
   data: z.array(
     z.object({
-      msg: z.string(),
+      msg: z.array(z.any()),
       color: z.enum(["red", "yellow", "normal"])
     })
   )

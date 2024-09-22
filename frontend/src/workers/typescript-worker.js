@@ -2,8 +2,8 @@ self.importScripts("https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/babel-standal
 
 const postmessage = (status, msg) => self.postMessage({ lang: "typescript", output: { status, data: msg } });
 
-self.console.error = (...msg) => postmessage("running", [{ color: "red", msg: msg.join(" ") }]);
-self.console.log = (...msgs) => postmessage("running", [{ color: "normal", msg: msgs.join(" ") }]);
+self.console.error = (...msg) => postmessage("running", [{ color: "red", msg }]);
+self.console.log = (...msg) => postmessage("running", [{ color: "normal", msg }]);
 
 async function waitBabelReady() {
   Babel.transform("", { filename: "typescript.ts", presets: ["typescript"] });

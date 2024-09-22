@@ -1,7 +1,7 @@
 const postmessage = (status, msg) => self.postMessage({ lang: "javascript", output: { status, data: msg } });
 
-self.console.error = (...msg) => postmessage("running", [{ color: "red", msg: msg.join(" ") }]);
-self.console.log = (...msgs) => postmessage("running", [{ color: "normal", msg: msgs.join(" ") }]);
+self.console.error = (...msg) => postmessage("running", [{ color: "red", msg }]);
+self.console.log = (...msg) => postmessage("running", [{ color: "normal", msg }]);
 
 self.onmessage = async (event) => {
   const { data, ...context } = event.data;

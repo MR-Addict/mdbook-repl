@@ -2,7 +2,7 @@ self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
 
 let pyodide = null;
 
-const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: msg } });
+const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: [msg] } });
 const stderr = (msg) => postmessage("running", [{ color: "red", msg }]);
 const stdout = (msg) => {
   // if the message is FLUSHHH, then ignore it

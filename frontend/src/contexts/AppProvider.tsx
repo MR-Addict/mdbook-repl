@@ -89,13 +89,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     // start new worker
     const newWorker = new Worker(workers[lang], { type: "classic", name: `${lang}-worker` });
     newWorker.onmessage = (event: MessageEvent) => {
-      const parsedOutput = Output.safeParse(event.data.output);
       const parsedLang = Language.safeParse(event.data.lang);
+      const parsedOutput = Output.safeParse(event.data.output);
       if (!parsedOutput.success || !parsedLang.success) return;
-      setOutputs((prev) => ({
-        ...prev,
-        [parsedLang.data]: { status: parsedOutput.data.status, data: [...prev[lang].data, ...parsedOutput.data.data] }
-      }));
+
+      const data = parsedOutput.data.data;
+      const status = parsedOutput.data.status;
+      setOutputs((prev) => ({ ...prev, [parsedLang.data]: { status, data: [...prev[lang].data, ...data] } }));
     };
     setWorker(newWorker);
   }, [editor.lang]);
