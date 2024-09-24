@@ -2,45 +2,36 @@
 <script>
   document.querySelectorAll(".repl").forEach((replElement) => {
     const iframeElement = replElement.querySelector("iframe");
-
     const id = replElement.getAttribute("data-id");
     const lang = replElement.getAttribute("data-lang");
     const code = getCode(replElement.nextElementSibling);
     const readonly = replElement.getAttribute("data-readonly") === "true";
     let theme = mapTheme(localStorage.getItem("mdbook-theme") || document.querySelector(".theme.theme-selected")?.id);
-
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");
-
     function mapTheme(bookTheme) {
       return bookTheme === "light" || bookTheme === "rust" ? "light" : "dark";
     }
-
     function getCode(element) {
       // remove all the boring elements
       const code = element.cloneNode(true);
       code.querySelectorAll(".boring").forEach((boring) => boring.remove());
       return code.innerText.trim();
     }
-
     window.addEventListener("message", (event) => {
       const repl = event.data.repl;
       if (event.source === window || !repl) return;
-
       // if the id is empty, then it's the first time the iframe is loaded
       if (repl.id === "") {
         postmessage({ id, editor: { theme, lang, code, readonly, defaultCode: code } });
         return;
       }
-
       if (repl.id !== id) return;
-
       // update the iframe height
       replElement.style.height = repl.dimensions.height + "px";
       // show the iframe and hide the pre element
       iframeElement.classList.remove("hide");
       replElement.nextElementSibling.style.display = "none";
     });
-
     // listen to theme change
     document.querySelectorAll("button[role='menuitem'].theme").forEach((btn) => {
       btn.addEventListener("click", (event) => {
