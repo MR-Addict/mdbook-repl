@@ -2,15 +2,13 @@ self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
 
 let pyodide = null;
 
-const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: [msg] } });
-const stderr = (msg) => postmessage("running", [{ color: "red", msg }]);
-const stdout = (msg) => {
-  // if the message is FLUSHHH, then ignore it
-  if (msg === "FLUSHHH") return;
+const postmessage = (status, msg) => self.postMessage({ lang: "python", output: { status, data: msg } });
 
-  // remove the FLUSHHH from the message
-  if (msg.includes("FLUSHHH")) msg = msg.replace("FLUSHHH", "");
-  postmessage("running", [{ color: "normal", msg }]);
+const stderr = (...msg) => postmessage("running", [{ color: "red", msg }]);
+const stdout = (...msg) => {
+  // if the message is FLUSHHH, then ignore it
+  msg = msg.filter((m) => m !== "FLUSHHH");
+  if (msg.length) postmessage("running", [{ color: "normal", msg }]);
 };
 
 async function waitPyodideReady() {
