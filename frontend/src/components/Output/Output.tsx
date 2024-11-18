@@ -6,7 +6,6 @@ import { VscCopy } from "react-icons/vsc";
 import { IoCheckmark } from "react-icons/io5";
 
 import style from "./Output.module.css";
-
 import { useAppContext } from "@/contexts/AppProvider";
 
 interface ButtonProps {

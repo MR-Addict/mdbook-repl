@@ -1,7 +1,7 @@
-import React from "react";
+import { lazy } from "react";
 
-const Editor = React.lazy(() => import("@/components/Editor/Editor"));
-const Output = React.lazy(() => import("@/components/Output/Output"));
+const Editor = lazy(() => import("@/components/Editor/Editor"));
+const Output = lazy(() => import("@/components/Output/Output"));
 
 export default function App() {
   return (
