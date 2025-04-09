@@ -37,7 +37,7 @@ self.onmessage = async (event) => {
       await pyodide.runPythonAsync(code + "\nprint('FLUSHHH')"); // FLUSHHH is for flushing the stdout
       postmessage("finished", []);
     } catch (err) {
-      postmessage("finished", [{ color: "red", msg: err.message }]);
+      postmessage("finished", [{ color: "red", msg: [err.message] }]);
     }
   }
 };

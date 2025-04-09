@@ -20,7 +20,7 @@ self.onmessage = async (event) => {
       await eval(code);
       postmessage("finished", []);
     } catch (err) {
-      postmessage("finished", [{ color: "red", msg: err.message }]);
+      postmessage("finished", [{ color: "red", msg: [err.message] }]);
     }
   }
 };

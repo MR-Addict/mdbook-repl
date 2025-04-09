@@ -7,7 +7,7 @@ body {
 }
 
 main {
-  @apply rounded-md flex flex-col gap-3 dark:bg-zinc-950;
+  @apply rounded-md flex flex-col gap-3;
 }
 
 /* ace editor releated */

@@ -78,6 +78,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   // listen theme change
   useEffect(() => {
+    document.documentElement.style.colorScheme = editor.theme;
     document.body.classList.toggle("dark", editor.theme === "dark");
   }, [editor.theme]);
 

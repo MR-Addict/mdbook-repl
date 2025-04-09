@@ -31,7 +31,7 @@ self.onmessage = async (event) => {
       await eval(babel.code);
       postmessage("finished", []);
     } catch (err) {
-      postmessage("finished", [{ color: "red", msg: err.message }]);
+      postmessage("finished", [{ color: "red", msg: [err.message] }]);
     }
   }
 };
