@@ -8,6 +8,10 @@ body {
 
 main {
   @apply rounded-md flex flex-col gap-3;
+
+  &[data-fullscreen="true"] {
+    @apply p-4;
+  }
 }
 
 /* ace editor releated */

@@ -24,14 +24,19 @@ const defaultOptions = {
 };
 
 export default function Editor() {
-  const { outputs, editor, setEditor, execuateCode } = useAppContext();
+  const { outputs, editor, setEditor, execuateCode, clearOutput } = useAppContext();
 
   // listen ctrl + r
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.view?.window === window && e.ctrlKey && e.key.toLowerCase() === "r") {
-        e.preventDefault();
-        execuateCode();
+      if (e.view?.window === window) {
+        if (e.ctrlKey && e.key.toLowerCase() === "r") {
+          e.preventDefault();
+          execuateCode();
+        } else if (e.ctrlKey && e.key.toLowerCase() === "l") {
+          e.preventDefault();
+          clearOutput();
+        }
       }
     };
 

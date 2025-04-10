@@ -31,6 +31,7 @@ interface AppContextProps {
   setEditor: Dispatch<SetStateAction<EditorType>>;
 
   outputs: OutputsType;
+  isFullscreen: boolean | null;
 
   execuateCode: () => void;
   clearOutput: () => void;
@@ -41,6 +42,7 @@ const AppContext = createContext<AppContextProps>({
   setEditor: () => {},
 
   outputs: defaultOutputs,
+  isFullscreen: null,
 
   execuateCode: () => {},
   clearOutput: () => {}
@@ -56,6 +58,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [id, setId] = useState<string>("");
   const [worker, setWorker] = useState<Worker | null>(null);
   const [outputs, setOutputs] = useState<OutputsType>(defaultOutputs);
+  const [isFullscreen, setIsFullscreen] = useState<boolean | null>(null);
   const [editor, setEditor] = useState<EditorType>(defaultEditorOptions);
 
   function postmessage() {
@@ -121,14 +124,36 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       setEditor({ ...parsedEditor.data });
     };
 
+    const onFullscreenChange = () => {
+      if (!document.fullscreenEnabled) setIsFullscreen(null);
+      else setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    onFullscreenChange();
+
     window.addEventListener("message", onmessage);
     postmessage();
 
-    return () => window.removeEventListener("message", onmessage);
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+      window.removeEventListener("message", onmessage);
+    };
   }, []);
 
   return (
-    <AppContext.Provider value={{ editor, setEditor, outputs, execuateCode, clearOutput }}>
+    <AppContext.Provider
+      value={{
+        editor,
+        setEditor,
+
+        outputs,
+        isFullscreen,
+
+        execuateCode,
+        clearOutput
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

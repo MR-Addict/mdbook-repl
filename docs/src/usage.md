@@ -95,7 +95,10 @@ console.log("Hello, world!");
 
 ## Shortcuts
 
-You can use **CTRL** + **R** to run the codeblock. This is useful when you want to run the codeblock without clicking the run button.
+| **Shortcut** | **Description**                        |
+| :----------- | :------------------------------------- |
+| Ctrl + R     | Run the codeblock and show the result. |
+| Ctrl + L     | Clear the output of the codeblock.     |
 
 ## Language Extensions
 
