@@ -44,7 +44,7 @@ jobs:
 
       - name: Build REPL
         run: |
-          cd frontend && rm package-lock.json && npm install && npm run build
+          cd frontend && npm install && npm run build
 
       - name: Build book
         run: |

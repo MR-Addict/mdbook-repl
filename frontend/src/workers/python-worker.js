@@ -1,4 +1,4 @@
-self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+self.importScripts("https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pyodide.js");
 
 let pyodide = null;
 
