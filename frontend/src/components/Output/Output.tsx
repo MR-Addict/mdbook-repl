@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useState } from "react";
 import { GrClear } from "react-icons/gr";
 import { IconType } from "react-icons/lib";
@@ -16,14 +15,7 @@ interface ButtonProps {
 
 function Button({ Icon, onClick, title }: ButtonProps) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      title={title}
-      className={
-        "dark:bg-zinc-900 dark:text-gray-400 sm:hover:text-blue-600 sm:dark:hover:text-gray-300 dark:border-zinc-600"
-      }
-    >
+    <button type="button" onClick={onClick} title={title}>
       <Icon size={13} />
     </button>
   );
@@ -49,8 +41,8 @@ export default function Output() {
     return null;
 
   return (
-    <div className={clsx(style.wrapper, "dark:bg-zinc-800")}>
-      <div className={clsx(style.output, "dark:text-gray-300")}>
+    <div className={style.wrapper}>
+      <div className={style.output}>
         {output.data.length === 0 && output.status === "finished" && (
           <p className={style.line}>&gt; Sorry, there is no output</p>
         )}

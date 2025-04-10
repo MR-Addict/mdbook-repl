@@ -11,10 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Cahce cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/bin/
@@ -25,16 +25,16 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Cache npm
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: "**/node_modules"
           key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.OS }}-npm-cache-
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Setup rust toolchain
         uses: actions-rs/toolchain@v1
@@ -44,7 +44,7 @@ jobs:
 
       - name: Build REPL
         run: |
-          cd frontend && npm install && npm run build
+          cd frontend && rm package-lock.json && npm install && npm run build
 
       - name: Build book
         run: |
@@ -57,9 +57,10 @@ jobs:
           mv frontend/dist build/embed
 
       - name: Deploy to github pages
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
           build_dir: build
+          jekyll: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

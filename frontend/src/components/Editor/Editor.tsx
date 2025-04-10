@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import AceEditor from "react-ace";
 import { useEffect } from "react";
 
@@ -41,7 +40,7 @@ export default function Editor() {
   }, [editor, outputs]);
 
   return (
-    <div className={clsx(style.wrapper, "dark:bg-zinc-800")}>
+    <div className={style.wrapper}>
       <Buttons />
       <AceEditor
         width="100%"

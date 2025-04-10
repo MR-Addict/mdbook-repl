@@ -15,15 +15,7 @@ interface ButtonProps {
 
 function Button({ Icon, onClick, title, disabled }: ButtonProps) {
   return (
-    <button
-      disabled={disabled}
-      type="button"
-      onClick={onClick}
-      title={title}
-      className={
-        "dark:bg-zinc-900 dark:text-gray-400 sm:dark:enabled:hover:text-gray-300 sm:enabled:hover:text-blue-600 dark:border-zinc-600 group"
-      }
-    >
+    <button disabled={disabled} type="button" onClick={onClick} title={title} className="group">
       <Icon size={13} className="group-disabled:animate-spin" />
     </button>
   );

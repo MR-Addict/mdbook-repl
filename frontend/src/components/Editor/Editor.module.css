@@ -1,16 +1,22 @@
 .wrapper {
-  @apply relative bg-stone-100 py-2 px-1;
+  @apply relative bg-zinc-100 dark:bg-zinc-800 py-3 px-1 rounded-sm;
 }
 
+.buttons:has(:disabled),
 .wrapper:hover .buttons,
 .buttons:hover {
   @apply opacity-100;
 }
 
 .buttons {
-  @apply z-10 sm:opacity-0 duration-300 absolute right-2 top-1 flex flex-row items-center gap-2;
+  @apply z-10 sm:opacity-0 duration-300 absolute right-2 top-2 flex flex-row items-center gap-1;
 
   & button {
-    @apply text-gray-500 bg-gray-100 p-1.5 border border-zinc-400 rounded-[5px];
+    @apply dark:text-gray-400 dark:bg-zinc-900 dark:border-zinc-700;
+    @apply text-gray-500 bg-gray-100 p-1.5 border border-zinc-300 rounded-[5px];
+
+    &:hover {
+      @apply sm:text-blue-600 sm:dark:text-white;
+    }
   }
 }
