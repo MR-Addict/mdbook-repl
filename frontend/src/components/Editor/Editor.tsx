@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-lua";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import style from "./Editor.module.css";

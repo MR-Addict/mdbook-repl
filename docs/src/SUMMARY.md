@@ -19,3 +19,6 @@
 - [Javascript]()
   - [Intro](javascript/intro.md)
   - [Examples](javascript/examples.md)
+- [Lua]()
+  - [Intro](lua/intro.md)
+  - [Examples](lua/examples.md)
