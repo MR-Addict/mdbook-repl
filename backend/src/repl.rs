@@ -40,7 +40,7 @@ fn map_lang(raw_lang: &str) -> &str {
         "py" | "python" => "python",
         "ts" | "typescript" => "typescript",
         "js" | "javascript" => "javascript",
-        "lua" | "lua" => "lua",
+        "lua" => "lua",
         _ => "python",
     }
 }
