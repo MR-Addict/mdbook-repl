@@ -13,7 +13,8 @@ const Output = z.object({
 const Outputs = z.object({
   python: Output,
   typescript: Output,
-  javascript: Output
+  javascript: Output,
+  lua: Output
 });
 
 type OutputType = z.infer<typeof Output>;
