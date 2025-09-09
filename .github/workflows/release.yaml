@@ -85,7 +85,7 @@ jobs:
       - name: Compress binaries
         run: |
           chmod u+x mdbook-repl-*/mdbook-repl*
-          upx --best mdbook-repl-*/mdbook-repl*
+          upx --best --force-macos mdbook-repl-*/mdbook-repl*
           zip -r mdbook-repl-${{ steps.get_version.outputs.VERSION }}-x86_64-unknown-linux-gnu{.zip,}
           zip -r mdbook-repl-${{ steps.get_version.outputs.VERSION }}-x86_64-apple-darwin{.zip,}
           zip -r mdbook-repl-${{ steps.get_version.outputs.VERSION }}-x86_64-pc-windows-msvc{.zip,}
