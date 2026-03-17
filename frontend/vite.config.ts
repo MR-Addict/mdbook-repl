@@ -25,5 +25,16 @@ export default defineConfig({
         return `_${name}_${hash}_${lineNumber}`;
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/react-ace")) return "react-ace";
+          else if (id.includes("node_modules/ace-builds/src-noconflict/mode")) return "ace-modes";
+          else if (id.includes("node_modules/ace-builds/src-noconflict/theme")) return "ace-themes";
+        }
+      }
+    }
   }
 });

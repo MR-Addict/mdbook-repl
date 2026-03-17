@@ -49,9 +49,7 @@ copy-js = true
 command = "backend/target/release/mdbook-repl"
 
 # iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
-src = "http://localhost:5173/"
-editor.theme = "textmate"
-editor.darkTheme = "textmate"
+src = "https://mr-addict.github.io/mdbook-repl/embed/"
 
 # python is disabled by default and loading is lazy
 python.enable = true
