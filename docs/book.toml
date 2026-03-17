@@ -1,7 +1,6 @@
 [book]
 authors = ["MR-Addict"]
 language = "en"
-multilingual = false
 src = "src"
 title = "mdbook-repl"
 
@@ -50,7 +49,9 @@ copy-js = true
 command = "backend/target/release/mdbook-repl"
 
 # iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
-src = "https://mr-addict.github.io/mdbook-repl/embed/"
+src = "http://localhost:5173/"
+editor.theme = "textmate"
+editor.darkTheme = "textmate"
 
 # python is disabled by default and loading is lazy
 python.enable = true

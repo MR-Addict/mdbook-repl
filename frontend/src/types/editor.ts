@@ -9,6 +9,8 @@ const Editor = z.object({
   code: z.string(),
   defaultCode: z.string(),
   theme: z.enum(["dark", "light"]),
+  editorTheme: z.string().optional(),
+  editorDarkTheme: z.string().optional(),
   readonly: z.boolean()
 });
 

@@ -71,6 +71,8 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
             // get the config options
             let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), false);
             let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
+            let editor_theme = cfg::get_config_string(config, "editor.theme", "");
+            let editor_dark_theme = cfg::get_config_string(config, "editor.darkTheme", "");
             let src = cfg::get_config_string(
                 config,
                 "src",
@@ -89,6 +91,8 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
                 .replace("{loading}", &loading)
                 .replace("{codeblock}", &codeblock)
                 .replace("{readonly}", if readonly { "true" } else { "false" })
+                .replace("{editor.theme}", &editor_theme)
+                .replace("{editor.darkTheme}", &editor_dark_theme)
         })
         .to_string();
 

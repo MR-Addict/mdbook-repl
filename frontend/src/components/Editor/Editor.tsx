@@ -1,10 +1,10 @@
 import AceEditor from "react-ace";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
+import "ace-builds/src-noconflict/mode-lua";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/mode-lua";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import style from "./Editor.module.css";
@@ -26,6 +26,11 @@ const defaultOptions = {
 
 export default function Editor() {
   const { outputs, editor, setEditor, execuateCode, clearOutput } = useAppContext();
+
+  const theme = useMemo(() => {
+    if (editor.theme === "light") return editor.editorTheme ?? "textmate";
+    return editor.editorDarkTheme ?? "monokai";
+  }, [editor.theme, editor.editorTheme, editor.editorDarkTheme]);
 
   // listen ctrl + r
   useEffect(() => {
@@ -50,6 +55,7 @@ export default function Editor() {
       <Buttons />
       <AceEditor
         width="100%"
+        theme={theme}
         name={editor.lang}
         mode={editor.lang}
         value={editor.code}
@@ -58,7 +64,6 @@ export default function Editor() {
         defaultValue={editor.defaultCode}
         setOptions={{ useWorker: false }}
         tabSize={editor.lang === "python" ? 4 : 2}
-        theme={editor.theme === "light" ? "textmate" : "monokai"}
         onChange={(code) => setEditor({ ...editor, code })}
         {...defaultOptions}
       />
