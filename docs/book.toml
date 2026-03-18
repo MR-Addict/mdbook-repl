@@ -65,5 +65,6 @@ typescript.loading = "lazy"
 javascript.enable = true
 javascript.loading = "lazy"
 
+# lua is disabled by default and loading is lazy
 lua.enable = true
 lua.loading = "lazy"
