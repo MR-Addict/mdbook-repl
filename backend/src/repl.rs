@@ -45,9 +45,26 @@ fn map_lang(raw_lang: &str) -> &str {
     }
 }
 
+fn get_langs_regex(extensions: &[&str]) -> String {
+    extensions
+        .iter()
+        .map(|lang| format!("\\b{}\\b", lang))
+        .collect::<Vec<_>>()
+        .join("|")
+}
+
 fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
-    let langs = r"\bpy\b|\bpython\b|\bts\b|\btypescript\b|\bjs\b|\bjavascript\b|\blua\b";
+    let extensions = [
+        "py",
+        "python",
+        "ts",
+        "typescript",
+        "js",
+        "javascript",
+        "lua",
+    ];
+    let langs = get_langs_regex(&extensions);
     let re = Regex::new(&format!(r"(?s)```({}),?(.*?)\r?\n(.*?)```", langs)).unwrap();
 
     // if there are no matches, return the content as is
