@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import useResizeObserver from "@/hooks/useResizeObserver";
 
 import { defaultCodes } from "@/data/app";
-import { Output, OutputsType } from "@/types/output";
-import { Editor, EditorType, Language } from "@/types/editor";
+import { Output, type OutputsType } from "@/types/output";
+import { Editor, type EditorType, Language } from "@/types/editor";
 
 const workers = {
   python: new URL("../workers/python-worker.js", import.meta.url).toString(),

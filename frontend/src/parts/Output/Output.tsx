@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GrClear } from "react-icons/gr";
-import { IconType } from "react-icons/lib";
+import type { IconType } from "react-icons/lib";
 import { VscCopy } from "react-icons/vsc";
 import { IoCheckmark } from "react-icons/io5";
 

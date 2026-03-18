@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconType } from "react-icons/lib";
+import type { IconType } from "react-icons/lib";
 import { IoCheckmark } from "react-icons/io5";
 import { TfiFullscreen } from "react-icons/tfi";
 import { VscHistory, VscCopy, VscPlay, VscLoading } from "react-icons/vsc";
