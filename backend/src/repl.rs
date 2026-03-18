@@ -76,7 +76,7 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
             let src = cfg::get_config_string(
                 config,
                 "src",
-                "https://mr-addict.github.io/mdbook-repl/embed/",
+                "https://mr-addict.github.io/mdbook-repl/embed",
             );
 
             // if norepl is in the options, return the code block as is
