@@ -1,8 +1,7 @@
-import { lazy } from "react";
-import { useAppContext } from "@/contexts/AppProvider";
+import Editor from "./parts/Editor/Editor";
+import Output from "./parts/Output/Output";
 
-const Editor = lazy(() => import("@/components/Editor/Editor"));
-const Output = lazy(() => import("@/components/Output/Output"));
+import { useAppContext } from "@/contexts/AppProvider";
 
 export default function App() {
   const { isFullscreen } = useAppContext();

@@ -12,8 +12,8 @@ function simpleHash(str: string): number {
 }
 
 export default defineConfig({
+  base: "./",
   plugins: [react()],
-  base: process.env.BASE_URL || "./",
   resolve: { alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }] },
   css: {
     modules: {
@@ -23,17 +23,6 @@ export default defineConfig({
         const lineNumber = css.slice(0, i).split(/[\r\n]/).length;
         const hash = simpleHash(css).toString(36).slice(0, 5);
         return `_${name}_${hash}_${lineNumber}`;
-      }
-    }
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules/react-ace")) return "react-ace";
-          else if (id.includes("node_modules/ace-builds/src-noconflict/mode")) return "ace-modes";
-          else if (id.includes("node_modules/ace-builds/src-noconflict/theme")) return "ace-themes";
-        }
       }
     }
   }
