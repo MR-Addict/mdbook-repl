@@ -50,7 +50,7 @@ lua.loading = "lazy"
 
 - **src**: The url of the repl iframe. You can also deploy your own repl server for better performance, see [For Developers](for-developers.md) section.
 - **editor.theme**: The theme of the code editor, the default value is **textmate**.
-- **editor.darkTheme**: The theme of the code editor in dark mode, if not specified, it will use the value of **editor.theme**, otherswise the default value is **monokai**.
+- **editor.darkTheme**: The theme of the code editor in dark mode, if not specified, it will use the value of **editor.theme**, otherwise the default value is **monokai**.
 - **[language].enable**: Enable the language for the repl, the default value is **false**.
 - **[language].loading**: The loading of the language, can be **eager** or **lazy**, the default value is **lazy**.
 
