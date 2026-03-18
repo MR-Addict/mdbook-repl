@@ -39,6 +39,10 @@ python.loading = "lazy"
 typescript.enable = true
 typescript.loading = "lazy"
 
+# javascript is disabled by default and loading is lazy
+javascript.enable = true
+javascript.loading = "lazy"
+
 # lua is disabled by default and loading is lazy
 lua.enable = true
 lua.loading = "lazy"

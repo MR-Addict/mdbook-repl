@@ -6,7 +6,7 @@
     const lang = replElement.getAttribute("data-lang");
     const code = getCode(replElement.nextElementSibling);
     const readonly = replElement.getAttribute("data-readonly") === "true";
-    const editorTheme = replElement.getAttribute("data-edit-theme") ?? "";
+    const editorTheme = replElement.getAttribute("data-editor-theme") ?? "";
     const editorDarkTheme = replElement.getAttribute("data-editor-dark-theme") ?? "";
     let theme = mapTheme(localStorage.getItem("mdbook-theme") || document.querySelector(".theme.theme-selected")?.id);
     const postmessage = (msg) => iframeElement.contentWindow.postMessage({ repl: msg }, "*");

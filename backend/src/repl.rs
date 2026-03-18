@@ -87,7 +87,7 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
 
             // get the config options
             let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), false);
-            let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
+            let loading = cfg::get_config_string(config, &format!("{}.loading", lang), "lazy");
             let editor_theme = cfg::get_config_string(config, "editor.theme", "");
             let editor_dark_theme = cfg::get_config_string(config, "editor.darkTheme", "");
             let src = cfg::get_config_string(
