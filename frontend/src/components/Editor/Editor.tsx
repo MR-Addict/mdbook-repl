@@ -77,7 +77,7 @@ export default function Editor() {
 
   const theme = useMemo(() => {
     if (editor.theme === "light") return editor.editorTheme || "textmate";
-    return editor.editorDarkTheme || "monokai";
+    return editor.editorDarkTheme || editor.editorTheme || "monokai";
   }, [editor.theme, editor.editorTheme, editor.editorDarkTheme]);
 
   // listen ctrl + r

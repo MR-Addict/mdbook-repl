@@ -47,7 +47,7 @@ fn map_lang(raw_lang: &str) -> &str {
 
 fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
-    let langs = r"\bpy\b|\bpython\b|\bts\b|\btypescript\b|\bjs\b|\bjavascript\b|\blua\b|\blua\b";
+    let langs = r"\bpy\b|\bpython\b|\bts\b|\btypescript\b|\bjs\b|\bjavascript\b|\blua\b";
     let re = Regex::new(&format!(r"(?s)```({}),?(.*?)\r?\n(.*?)```", langs)).unwrap();
 
     // if there are no matches, return the content as is

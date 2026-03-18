@@ -28,6 +28,8 @@ After installation, you need to add some configurations to your **book.toml** fi
 [preprocessor.repl]
 # iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
 src = "https://mr-addict.github.io/mdbook-repl/embed/"
+editor.theme = "textmate"
+editor.darkTheme = "monokai"
 
 # python is disabled by default and loading is lazy
 python.enable = true
@@ -43,8 +45,10 @@ javascript.loading = "lazy"
 ```
 
 - **src**: The url of the repl iframe, the default value is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy your own repl server for better performance, see [For Developers](for-developers.md) section.
-- **language.enable**: Enable the language for the repl, default value is **false**.
-- **language.loading**: The loading of the language, can be **eager** or **lazy**, default value is **lazy**.
+- **editor.theme**: The theme of the code editor, the default value is **textmate**.
+- **editor.darkTheme**: The theme of the code editor in dark mode when **editor.theme** is **not** set, the default value is **monokai**.
+- **[language].enable**: Enable the language for the repl, default value is **false**.
+- **[language].loading**: The loading of the language, can be **eager** or **lazy**, default value is **lazy**.
 
 For example if you only care about python codeblock, you can only enable python and disable the others:
 
@@ -111,6 +115,7 @@ Here is the full list of extensions:
 | Python     | python, py     |
 | TypeScript | typescript, ts |
 | JavaScript | javascript, js |
+| Lua        | lua            |
 
 ## Performance
 
