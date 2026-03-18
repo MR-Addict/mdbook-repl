@@ -4,7 +4,7 @@ Actually, you can use repl in your own web project other than **mdbook**. What *
 
 The core of **mdbook-repl** is the iframe. The iframe is used to display the output of the code. The js and css are used to communicate with the iframe.
 
-The iframe url is [https://mr-addict.github.io/mdbook-repl/embed/](https://mr-addict.github.io/mdbook-repl/embed/). You can also deploy the iframe in your own server. You can find the source code of the iframe in the [github repository](https://github.com/MR-Addict/mdbook-repl/tree/gh-pages/embed).
+The iframe url is [https://mr-addict.github.io/mdbook-repl/embed](https://mr-addict.github.io/mdbook-repl/embed). You can also deploy the iframe in your own server. You can find the source code of the iframe in the [github repository](https://github.com/MR-Addict/mdbook-repl/tree/gh-pages/embed).
 
 ## API
 

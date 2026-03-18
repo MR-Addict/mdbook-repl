@@ -45,9 +45,26 @@ fn map_lang(raw_lang: &str) -> &str {
     }
 }
 
+fn get_langs_regex(extensions: &[&str]) -> String {
+    extensions
+        .iter()
+        .map(|lang| format!("\\b{}\\b", lang))
+        .collect::<Vec<_>>()
+        .join("|")
+}
+
 fn render_repls(content: &str, config: &Config) -> (bool, String) {
     // \r? is for windows line endings
-    let langs = r"\bpy\b|\bpython\b|\bts\b|\btypescript\b|\bjs\b|\bjavascript\b|\blua\b|\blua\b";
+    let extensions = [
+        "py",
+        "python",
+        "ts",
+        "typescript",
+        "js",
+        "javascript",
+        "lua",
+    ];
+    let langs = get_langs_regex(&extensions);
     let re = Regex::new(&format!(r"(?s)```({}),?(.*?)\r?\n(.*?)```", langs)).unwrap();
 
     // if there are no matches, return the content as is
@@ -70,11 +87,13 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
 
             // get the config options
             let enable = cfg::get_config_bool(config, &format!("{}.enable", lang), false);
-            let loading = cfg::get_config_string(config, &format!("{}.lazy", lang), "lazy");
+            let loading = cfg::get_config_string(config, &format!("{}.loading", lang), "lazy");
+            let editor_theme = cfg::get_config_string(config, "editor.theme", "");
+            let editor_dark_theme = cfg::get_config_string(config, "editor.darkTheme", "");
             let src = cfg::get_config_string(
                 config,
                 "src",
-                "https://mr-addict.github.io/mdbook-repl/embed/",
+                "https://mr-addict.github.io/mdbook-repl/embed",
             );
 
             // if norepl is in the options, return the code block as is
@@ -89,6 +108,8 @@ fn render_repls(content: &str, config: &Config) -> (bool, String) {
                 .replace("{loading}", &loading)
                 .replace("{codeblock}", &codeblock)
                 .replace("{readonly}", if readonly { "true" } else { "false" })
+                .replace("{editor.theme}", &editor_theme)
+                .replace("{editor.darkTheme}", &editor_dark_theme)
         })
         .to_string();
 

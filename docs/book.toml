@@ -1,7 +1,6 @@
 [book]
 authors = ["MR-Addict"]
 language = "en"
-multilingual = false
 src = "src"
 title = "mdbook-repl"
 
@@ -49,8 +48,10 @@ copy-js = true
 [preprocessor.repl]
 command = "backend/target/release/mdbook-repl"
 
-# iframe url, default is https://mr-addict.github.io/mdbook-repl/embed/
-src = "https://mr-addict.github.io/mdbook-repl/embed/"
+# iframe url and editor theme settings
+src = "https://mr-addict.github.io/mdbook-repl/embed"
+editor.theme = "textmate"
+editor.darkTheme = "monokai"
 
 # python is disabled by default and loading is lazy
 python.enable = true
@@ -64,5 +65,6 @@ typescript.loading = "lazy"
 javascript.enable = true
 javascript.loading = "lazy"
 
+# lua is disabled by default and loading is lazy
 lua.enable = true
 lua.loading = "lazy"

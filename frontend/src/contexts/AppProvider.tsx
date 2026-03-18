@@ -10,7 +10,7 @@ const workers = {
   python: new URL("../workers/python-worker.js", import.meta.url).toString(),
   typescript: new URL("../workers/typescript-worker.js", import.meta.url).toString(),
   javascript: new URL("../workers/javascript-worker.js", import.meta.url).toString(),
-  lua: new URL("../workers/lua-worker.js", import.meta.url).toString(),
+  lua: new URL("../workers/lua-worker.js", import.meta.url).toString()
 };
 
 const defaultOutputs: OutputsType = {
